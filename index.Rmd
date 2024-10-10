@@ -1,6 +1,6 @@
 --- 
-title: "A Minimal Book Example"
-author: "Yihui Xie"
+title: "Análisis de Series Temporales de Lluvia: Estación VENADO ORO VIVERO [21205580] - Bogotá"
+author: "Dónoban Rojas"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output:
