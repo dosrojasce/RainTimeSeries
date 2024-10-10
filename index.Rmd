@@ -48,4 +48,4 @@ El valor agregado de este análisis reside en la posibilidad de aplicar técnica
 
 Los datos utilizados provienen del Instituto de Hidrología, Meteorología y Estudios Ambientales (IDEAM), específicamente a través de la plataforma pública DHIME (http://dhime.ideam.gov.co/atencionciudadano/). DHIME es un sistema de acceso público que permite la consulta y descarga de datos meteorológicos e hidrológicos. Estos datos están disponibles sin restricciones para fines académicos e investigativos, cumpliendo con las políticas de uso del IDEAM.
 
-Adicionalmente, los datos obtenidos a través de la plataforma del IDEAM están disponibles para su verificación y consulta en el repositorio oficial, accesible en el siguiente enlace: [Descargar datos](https://raw.githubusercontent.com/dosrojasce/RainTimeSeries/main/ruta/al/21205580-PTPM_CON.csv)
+Adicionalmente, los datos obtenidos a través de la plataforma del IDEAM están disponibles para su verificación y consulta en el repositorio oficial, accesible en el siguiente enlace: [Descargar datos](https://raw.githubusercontent.com/dosrojasce/RainTimeSeries/refs/heads/main/21205580-PTPM_CON.csv)
