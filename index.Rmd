@@ -1,38 +1,52 @@
---- 
+---
 title: "Análisis de Series Temporales de Lluvia: Estación VENADO ORO VIVERO [21205580] - Bogotá"
 author: "Dónoban Rojas"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 output:
   bookdown::gitbook:
+    css: style.css
+    config:
+      toc:
+        before: |
+          <li><a href="./">Series Temporales de Lluvia</a></li>
+        after: |
+          <li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado con bookdown</a></li>
+      download: ["pdf", "epub"]
+      fontsettings:
+        theme: night
+        family: sans
+        size: 2
     output_dir: "docs"
 documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
 github-repo: seriestiempo
-description: "This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook."
+description: "Análisis de datos de precipitación diaria de la estación VENADO ORO VIVERO en Bogotá"
 ---
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  var theme = localStorage.getItem('theme');
+  if (theme === null || theme !== 'night') {
+    localStorage.setItem('theme', 'night');
+    window.location.reload();
+  }
+});
+</script>
+
 
 # Prerequisites
 
-This is a _sample_ book written in **Markdown**. You can use anything that Pandoc's Markdown supports, e.g., a math equation $a^2 + b^2 = c^2$.
+Se propone el análisis de los datos de precipitación diaria registrados en la estación climatológica “VENADO ORO VIVERO”, ubicada en Bogotá, con coordenadas 4.60° de latitud y -74.06° de longitud, y una altitud de 2,725 metros sobre el nivel del mar. Esta estación, parte de la red del Instituto de Hidrología, Meteorología y Estudios Ambientales (IDEAM), cuenta con datos históricos desde el 1 de agosto de 1965 hasta el 10 de agosto de 2022. La variable seleccionada es la precipitación diaria (PTPM_CON), medida en milímetros (mm).
 
-The **bookdown** package can be installed from CRAN or Github:
+**Importancia del análisis de la precipitación**
 
-```{r eval=FALSE}
-install.packages("bookdown")
-# or the development version
-# devtools::install_github("rstudio/bookdown")
-```
+El estudio de las series temporales de precipitación es crucial para entender las características climáticas locales y su evolución a lo largo del tiempo. Este tipo de análisis permite identificar patrones estacionales, cambios a largo plazo y fenómenos extremos, lo cual es esencial para pronosticar eventos climáticos relevantes. La estación VENADO ORO VIVERO ha sido seleccionada por su proximidad a la Pontificia Universidad Javeriana sede Bogotá y por la disponibilidad accesible de sus datos. Al contar con más de cinco décadas de registros continuos, esta serie temporal proporciona una base confiable para el análisis de tendencias, estacionalidad, autocorrelación y para el desarrollo de modelos predictivos.
 
-Remember each Rmd file contains one and only one chapter, and a chapter is defined by the first-level heading `#`.
+El valor agregado de este análisis reside en la posibilidad de aplicar técnicas avanzadas de análisis de series temporales, lo que permitirá no solo detectar patrones climáticos recurrentes, sino también anomalías y cambios estructurales en las precipitaciones. El enfoque de este estudio está en el desarrollo de competencias técnicas y el manejo de herramientas estadísticas que puedan aplicarse a diferentes contextos de análisis climático. Aunque estos datos pueden ser útiles para investigaciones futuras, como el modelado hidrológico o el análisis de cambio climático, el objetivo principal en esta etapa es profundizar en el análisis cuantitativo de las series temporales.
 
-To compile this example to PDF, you need XeLaTeX. You are recommended to install TinyTeX (which includes XeLaTeX): <https://yihui.name/tinytex/>.
+**Fuentes y permisos**
 
-```{r include=FALSE}
-# automatically create a bib database for R packages
-knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown'
-), 'packages.bib')
-```
+Los datos utilizados provienen del Instituto de Hidrología, Meteorología y Estudios Ambientales (IDEAM), específicamente a través de la plataforma pública DHIME (http://dhime.ideam.gov.co/atencionciudadano/). DHIME es un sistema de acceso público que permite la consulta y descarga de datos meteorológicos e hidrológicos. Estos datos están disponibles sin restricciones para fines académicos e investigativos, cumpliendo con las políticas de uso del IDEAM.
+

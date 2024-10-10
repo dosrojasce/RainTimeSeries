@@ -5,19 +5,19 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Análisis de Series Temporales de Lluvia: Estación VENADO ORO VIVERO [21205580] - Bogotá</title>
-  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="description" content="Análisis de datos de precipitación diaria de la estación VENADO ORO VIVERO en Bogotá" />
   <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Análisis de Series Temporales de Lluvia: Estación VENADO ORO VIVERO [21205580] - Bogotá" />
   <meta property="og:type" content="book" />
   
-  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta property="og:description" content="Análisis de datos de precipitación diaria de la estación VENADO ORO VIVERO en Bogotá" />
   <meta name="github-repo" content="seriestiempo" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Análisis de Series Temporales de Lluvia: Estación VENADO ORO VIVERO [21205580] - Bogotá" />
   
-  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="twitter:description" content="Análisis de datos de precipitación diaria de la estación VENADO ORO VIVERO en Bogotá" />
   
 
 <meta name="author" content="Dónoban Rojas" />
@@ -54,76 +54,13 @@
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
-<style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
 
 <style type="text/css">
   
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 </style>
 
+<link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
 <body>
@@ -136,7 +73,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
+<li><a href="./">Series Temporales de Lluvia</a></li>
+
+<li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="#prerequisites"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Publicado con bookdown</a></li>
+
 </ul>
 
       </nav>
@@ -161,13 +104,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="prerequisites" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Prerequisites<a href="#prerequisites" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>This is a <em>sample</em> book written in <strong>Markdown</strong>. You can use anything that Pandoc’s Markdown supports, e.g., a math equation <span class="math inline">\(a^2 + b^2 = c^2\)</span>.</p>
-<p>The <strong>bookdown</strong> package can be installed from CRAN or Github:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;bookdown&quot;</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co"># or the development version</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co"># devtools::install_github(&quot;rstudio/bookdown&quot;)</span></span></code></pre></div>
-<p>Remember each Rmd file contains one and only one chapter, and a chapter is defined by the first-level heading <code>#</code>.</p>
-<p>To compile this example to PDF, you need XeLaTeX. You are recommended to install TinyTeX (which includes XeLaTeX): <a href="https://yihui.name/tinytex/" class="uri">https://yihui.name/tinytex/</a>.</p>
+<p>Se propone el análisis de los datos de precipitación diaria registrados en la estación climatológica “VENADO ORO VIVERO”, ubicada en Bogotá, con coordenadas 4.60° de latitud y -74.06° de longitud, y una altitud de 2,725 metros sobre el nivel del mar. Esta estación, parte de la red del Instituto de Hidrología, Meteorología y Estudios Ambientales (IDEAM), cuenta con datos históricos desde el 1 de agosto de 1965 hasta el 10 de agosto de 2022. La variable seleccionada es la precipitación diaria (PTPM_CON), medida en milímetros (mm).</p>
+<p><strong>Importancia del análisis de la precipitación</strong></p>
+<p>El estudio de las series temporales de precipitación es crucial para entender las características climáticas locales y su evolución a lo largo del tiempo. Este tipo de análisis permite identificar patrones estacionales, cambios a largo plazo y fenómenos extremos, lo cual es esencial para pronosticar eventos climáticos relevantes. La estación VENADO ORO VIVERO ha sido seleccionada por su proximidad a la Pontificia Universidad Javeriana sede Bogotá y por la disponibilidad accesible de sus datos. Al contar con más de cinco décadas de registros continuos, esta serie temporal proporciona una base confiable para el análisis de tendencias, estacionalidad, autocorrelación y para el desarrollo de modelos predictivos.</p>
+<p>El valor agregado de este análisis reside en la posibilidad de aplicar técnicas avanzadas de análisis de series temporales, lo que permitirá no solo detectar patrones climáticos recurrentes, sino también anomalías y cambios estructurales en las precipitaciones. El enfoque de este estudio está en el desarrollo de competencias técnicas y el manejo de herramientas estadísticas que puedan aplicarse a diferentes contextos de análisis climático. Aunque estos datos pueden ser útiles para investigaciones futuras, como el modelado hidrológico o el análisis de cambio climático, el objetivo principal en esta etapa es profundizar en el análisis cuantitativo de las series temporales.</p>
+<p><strong>Fuentes y permisos</strong></p>
+<p>Los datos utilizados provienen del Instituto de Hidrología, Meteorología y Estudios Ambientales (IDEAM), específicamente a través de la plataforma pública DHIME (<a href="http://dhime.ideam.gov.co/atencionciudadano/" class="uri">http://dhime.ideam.gov.co/atencionciudadano/</a>). DHIME es un sistema de acceso público que permite la consulta y descarga de datos meteorológicos e hidrológicos. Estos datos están disponibles sin restricciones para fines académicos e investigativos, cumpliendo con las políticas de uso del IDEAM.</p>
 
 </div>
             </section>
@@ -202,7 +144,7 @@ gitbook.start({
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
-"theme": "white",
+"theme": "night",
 "family": "sans",
 "size": 2
 },
@@ -218,7 +160,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": null,
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
 "search": {
 "engine": "fuse",
 "options": null
@@ -230,20 +172,6 @@ gitbook.start({
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>
