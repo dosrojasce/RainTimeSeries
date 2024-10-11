@@ -1,7 +1,6 @@
 ---
 title: "Análisis de Series Temporales de Lluvia: Estación VENADO ORO VIVERO [21205580]"
-author: "Dónoban Rojas"
-date: "`r Sys.Date()`"
+author: "[Dónoban Rojas](https://www.linkedin.com/in/donoban-rojas/)"
 site: bookdown::bookdown_site
 output:
   bookdown::gitbook:
