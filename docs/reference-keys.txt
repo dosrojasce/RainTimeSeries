@@ -1,1 +1,5 @@
 importancia-del-análisis-de-la-precipitación
+intro
+datos-faltantes
+análisis-de-la-serie-temporal
+análisis-de-resultados

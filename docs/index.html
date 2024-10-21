@@ -30,7 +30,7 @@
   
   
 
-
+<link rel="next" href="intro.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -51,8 +51,91 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.33/datatables.js"></script>
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="libs/selectize-0.12.0/selectize.min.js"></script>
+<link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 
 
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #232629;
+    color: #7a7c7d;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d;  padding-left: 4px; }
+div.sourceCode
+  { color: #cfcfc2; background-color: #232629; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #cfcfc2; } /* Normal */
+code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
+code span.an { color: #3f8058; } /* Annotation */
+code span.at { color: #2980b9; } /* Attribute */
+code span.bn { color: #f67400; } /* BaseN */
+code span.bu { color: #7f8c8d; } /* BuiltIn */
+code span.cf { color: #fdbc4b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #3daee9; } /* Char */
+code span.cn { color: #27aeae; font-weight: bold; } /* Constant */
+code span.co { color: #7a7c7d; } /* Comment */
+code span.cv { color: #7f8c8d; } /* CommentVar */
+code span.do { color: #a43340; } /* Documentation */
+code span.dt { color: #2980b9; } /* DataType */
+code span.dv { color: #f67400; } /* DecVal */
+code span.er { color: #da4453; text-decoration: underline; } /* Error */
+code span.ex { color: #0099ff; font-weight: bold; } /* Extension */
+code span.fl { color: #f67400; } /* Float */
+code span.fu { color: #8e44ad; } /* Function */
+code span.im { color: #27ae60; } /* Import */
+code span.in { color: #c45b00; } /* Information */
+code span.kw { color: #cfcfc2; font-weight: bold; } /* Keyword */
+code span.op { color: #cfcfc2; } /* Operator */
+code span.ot { color: #27ae60; } /* Other */
+code span.pp { color: #27ae60; } /* Preprocessor */
+code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #da4453; } /* SpecialString */
+code span.st { color: #f44f4f; } /* String */
+code span.va { color: #27aeae; } /* Variable */
+code span.vs { color: #da4453; } /* VerbatimString */
+code span.wa { color: #da4453; } /* Warning */
+</style>
 
 <style type="text/css">
   
@@ -75,7 +158,13 @@
 <li><a href="./">Series Temporales de Lluvia</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="#importancia-del-análisis-de-la-precipitación"><i class="fa fa-check"></i><b>1</b> Importancia del análisis de la precipitación</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Importancia del Análisis de la Precipitación</a></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Análisis Exploratorio</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#datos-faltantes"><i class="fa fa-check"></i><b>2.1</b> Datos Faltantes</a></li>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#análisis-de-la-serie-temporal"><i class="fa fa-check"></i><b>2.2</b> Análisis de la Serie Temporal</a></li>
+<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#análisis-de-resultados"><i class="fa fa-check"></i><b>2.3</b> Análisis de Resultados</a></li>
+</ul></li>
 </ul>
 
       </nav>
@@ -98,7 +187,7 @@
 <p class="author"><em><a href="https://www.linkedin.com/in/donoban-rojas/">Dónoban Rojas</a></em></p>
 </div>
 <div id="importancia-del-análisis-de-la-precipitación" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number">Sección 1</span> Importancia del análisis de la precipitación<a href="#importancia-del-análisis-de-la-precipitación" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<h1><span class="header-section-number">Sección 1</span> Importancia del Análisis de la Precipitación<a href="index.html#importancia-del-análisis-de-la-precipitación" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Se propone el análisis de los datos de precipitación diaria registrados en la estación climatológica “VENADO ORO VIVERO”, ubicada en Bogotá, con coordenadas 4.60° de latitud y -74.06° de longitud, y una altitud de 2,725 metros sobre el nivel del mar. Esta estación, parte de la red del Instituto de Hidrología, Meteorología y Estudios Ambientales (IDEAM), cuenta con datos históricos desde el 1 de agosto de 1965 hasta el 10 de agosto de 2022. La variable seleccionada es la precipitación diaria (PTPM_CON), medida en milímetros (mm).</p>
 <p><strong>Justificación del uso de datos de precipitación</strong></p>
 <p>El análisis de las series temporales de precipitación es fundamental para comprender las características climáticas locales y su evolución a lo largo del tiempo. Este tipo de estudio permite identificar patrones estacionales, tendencias a largo plazo y fenómenos extremos, aspectos cruciales para pronosticar eventos climáticos relevantes. La estación VENADO ORO VIVERO ha sido seleccionada por su accesibilidad de datos y su cercanía a la Pontificia Universidad Javeriana sede Bogotá, donde actualmente se lleva a cabo una investigación aplicada sobre Sistemas Urbanos de Drenaje Sostenible (SuDS) en el contexto del cambio climático. Los datos locales de precipitación son esenciales para la predicción de escenarios climáticos futuros, lo que facilitará la adaptación y optimización de los SuDS ante las variaciones climáticas proyectadas.</p>
@@ -115,7 +204,7 @@
         </div>
       </div>
 
-
+<a href="intro.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -2,14 +2,59 @@ p.caption {
   color: #777;
   margin-top: 10px;
 }
+
 p code {
   white-space: inherit;
 }
+
+/* Fondo oscuro para bloques de código */
 pre {
-  word-break: normal;
-  word-wrap: normal;
-}
-pre code {
-  white-space: inherit;
+  background-color: #1e1e1e !important;  /* Fondo oscuro */
+  color: #dcdcdc !important;  /* Texto claro */
+  border-radius: 5px;
+  padding: 10px;
 }
 
+/* Ajustes de color para diferentes tipos de código */
+code {
+  color: #dcdcdc !important;  /* Texto por defecto */
+}
+
+.hljs-keyword {
+  color: #c594c5 !important; /* Color para palabras clave */
+}
+
+.hljs-string {
+  color: #99c794 !important; /* Color para cadenas */
+}
+
+.hljs-comment {
+  color: #7c7c7c !important; /* Color para comentarios */
+}
+
+.hljs-number {
+  color: #f99157 !important; /* Color para números */
+}
+
+.hljs-function,
+.hljs-built_in,
+.hljs-name {
+  color: #569cd6 !important;  /* Color azul claro para las funciones */
+}
+
+.hljs-title {
+  color: #dcdcaa !important;  /* Color amarillo claro para los nombres de las funciones */
+}
+
+.hljs-type {
+  color: #ffcc66 !important;  /* Color amarillo para tipos de datos */
+}
+
+.hljs-symbol, .hljs-class {
+  color: #ff9d00 !important; /* Color naranja para funciones predefinidas y clases */
+}
+
+/* Mejorar la visibilidad de los parámetros de las funciones */
+.hljs-params {
+  color: #9cdcfe !important;  /* Color azul claro para los parámetros */
+}
