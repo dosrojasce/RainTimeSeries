@@ -6,6 +6,7 @@ output:
   bookdown::gitbook:
     highlight: "breezedark"
     css: style.css
+    code_folding: hide
     config:
       toc:
         before: |
