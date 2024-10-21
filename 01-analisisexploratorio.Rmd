@@ -1,7 +1,7 @@
 ---
 output: html_document
 ---
-# Análisis Exploratorio {#intro}
+# Análisis Exploratorio {#analisisexploratorio}
 
 La estación ha estado operando de manera continua desde el 15 de agosto de 1965. No obstante, como es común en este tipo de datos, pueden presentarse períodos en los que los instrumentos de medición fallen o presenten anomalías operativas. Estos fallos pueden generar periodos de ausencia de datos, lo cual es una limitación que debe ser considerada en el análisis. La existencia de datos faltantes es, por tanto, un aspecto fundamental que requiere ser evaluado y tratado adecuadamente en la fase de análisis exploratorio.
 
