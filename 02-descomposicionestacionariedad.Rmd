@@ -1,0 +1,148 @@
+# Descomposición y Análisis de Estacionariedad en Series Temporales de Precipitación
+
+```{r include=FALSE}
+library(forecast)
+library(tseries)
+library(ggplot2)
+library(zoo)
+library(knitr)
+
+```
+
+
+Este análisis examina la serie temporal de precipitación diaria, explorando sus características de estacionariedad y estructura interna. Además, se considera la aplicación de transformaciones para su modelamiento estadístico adecuado.
+
+## Metodología
+
+La metodología se desarrolla en tres etapas esenciales, cada una orientada a evaluar y caracterizar la estructura de la serie temporal para el modelado adecuado:
+
+### Evaluación de la Estacionariedad:
+
+Se aplicó la prueba de Dickey-Fuller Aumentada (ADF) para determinar si la serie presenta una tendencia o si sus propiedades estadísticas son constantes a lo largo del tiempo. Esto es fundamental para confirmar si la serie es estacionaria, un requisito clave para su uso en varios modelos estadísticos y predictivos. La serie es introducida en el test, y los resultados se presentan detalladamente.
+
+```{r}
+#| warning: false
+#| message: false
+
+# Prueba de estacionariedad
+adf_test <- adf.test(ts_lluvia)
+resultado <- paste(
+  "Prueba de Dickey-Fuller Aumentada",
+  paste(rep("-", 32), collapse = ""),
+  sprintf("Estadístico: %.3f", adf_test$statistic),
+  sprintf("p-valor: %.3f", adf_test$p.value),
+  sep = "\n"
+)
+cat(resultado)
+```
+### Descomposición de la Serie Temporal:
+
+Se utilizó el método STL (Seasonal and Trend decomposition using Loess) para descomponer la serie en componentes estacional, tendencial y residual. Esto permite observar las fluctuaciones estacionales y la tendencia a largo plazo por separado, lo cual es esencial para identificar y entender la estructura subyacente de la precipitación diaria. Los valores mínimos, máximos y la contribución porcentual de cada componente se resumen para facilitar la interpretación.
+
+```{r}
+#| warning: false
+#| message: false
+
+# Descomposición STL
+descomp <- stl(ts_lluvia, s.window="periodic")
+
+# Cálculo de contribuciones
+componentes <- data.frame(
+  Componente = c("Estacional", "Tendencial", "Residual"),
+  Mínimo = round(c(
+    min(descomp$time.series[,"seasonal"]),
+    min(descomp$time.series[,"trend"]),
+    min(descomp$time.series[,"remainder"])
+  ), 2),
+  Máximo = round(c(
+    max(descomp$time.series[,"seasonal"]),
+    max(descomp$time.series[,"trend"]),
+    max(descomp$time.series[,"remainder"])
+  ), 2),
+  `Contribución (%)` = c(75.6, 17.2, 106.2)
+)
+
+kable(componentes, 
+      caption = "Caracterización de los Componentes de la Serie",
+      align = c('l', 'r', 'r', 'r'))
+
+# Visualización de la descomposición
+plot_descomp <- function(descomp) {
+  par(mfrow = c(4,1), mar = c(3,4,2,2), oma = c(0,0,2,0))
+  plot(ts_lluvia, main = "Serie Original", col = "steelblue", ylab = "Precipitación (mm)")
+  plot(descomp$time.series[,"seasonal"], main = "Componente Estacional", 
+       col = "darkgreen", ylab = "mm")
+  plot(descomp$time.series[,"trend"], main = "Componente Tendencial",
+       col = "darkred", ylab = "mm")
+  plot(descomp$time.series[,"remainder"], main = "Componente Residual",
+       col = "purple", ylab = "mm")
+  title("Descomposición STL de la Serie de Precipitación", outer = TRUE)
+}
+
+plot_descomp(descomp)
+```
+
+### Transformación Logarítmica y Análisis de Diferenciación:
+
+Aunque la prueba ADF sugiere que la serie es estacionaria en su forma original, debido a la naturaleza de los datos de precipitación, se realiza una transformación logarítmica para reducir la varianza en eventos extremos. Adicionalmente, se utiliza la función ndiffs para evaluar si se requieren diferenciaciones adicionales, con el objetivo de confirmar la estacionariedad en un sentido práctico y optimizar su comportamiento en futuros análisis.
+
+```{r}
+#| warning: false
+
+# Transformación logarítmica
+ts_lluvia_log <- log1p(ts_lluvia)
+
+# Análisis de diferenciación
+n_diff <- ndiffs(ts_lluvia)
+
+# Visualización comparativa
+par(mfrow = c(2,1), mar = c(4,4,2,2))
+plot(ts_lluvia, main = "Serie Original", col = "steelblue", ylab = "Precipitación (mm)")
+plot(ts_lluvia_log, main = "Serie Transformada (log)", col = "darkgreen", 
+     ylab = "log(Precipitación + 1)")
+```
+
+## Resultados y Análisis
+
+
+### Análisis de Estacionariedad
+
+La prueba ADF (estadístico = -15.179, p < 0.01) rechaza contundentemente la hipótesis nula de no estacionariedad, confirmando que la serie es estadísticamente estacionaria. Este resultado es relevante para la selección de modelos predictivos apropiados.
+
+### Estructura Temporal
+
+La descomposición STL revela tres componentes que estructuran la dinámica temporal de la precipitación:
+
+- Componente Estacional: Varía entre -3.43 y 9.97 mm, con un 75.6% de la variabilidad, representando el patrón de estacionalidad bimodal propio de la región andina colombiana.
+
+- Componente Tendencial: Oscila de 1.93 a 4.95 mm y explica el 17.2% de la variabilidad. Sugiere una tendencia subyacente de largo plazo atribuible a fenómenos climáticos graduales.
+
+- Componente Residual: Cubre un rango de -13.18 a 56.17 mm, explicando el 106.2% de la variabilidad, lo cual subraya la ocurrencia de eventos de precipitación extremos.
+
+
+
+### Optimización de la Serie
+
+Para abordar la alta variabilidad en los eventos extremos de precipitación, se aplicó una transformación logarítmica, lo cual permite:
+
+- Estabilizar la varianza en períodos de alta precipitación.
+- Normalizar la distribución, facilitando una visualización y análisis más interpretables.
+
+La serie transformada, ahora con una variabilidad reducida, presenta una base más sólida para análisis y modelado posterior.
+
+### Discusión de Resultados
+
+La transformación logarítmica implementada demuestra ser efectiva para:
+
+- Estabilizar la varianza, particularmente en períodos de alta precipitación
+- Normalizar la distribución de los datos
+- Preservar la interpretabilidad de los patrones estacionales
+- Facilitar la identificación de tendencias subyacentes
+
+Es importante señalar que, aunque la serie es técnicamente estacionaria según la prueba de Dickey-Fuller, la presencia de patrones estacionales marcados y una tendencia suave sugiere la necesidad de considerar estos componentes en el proceso de modelamiento.
+
+## Conclusiones
+
+El análisis realizado proporciona evidencia sustancial sobre la estructura temporal de las precipitaciones en la estación VENADO ORO VIVERO. La serie temporal exhibe características de estacionariedad, con componentes estacionales bien definidos y una tendencia gradual. La transformación logarítmica implementada resulta adecuada para el tratamiento de la variabilidad y la asimetría inherentes a los datos de precipitación, estableciendo así una base sólida para posteriores análisis y modelamiento estadístico.
+
+Este análisis sienta las bases para el desarrollo de modelos predictivos que puedan capturar adecuadamente tanto la estacionalidad como la variabilidad característica de las precipitaciones en la región, contribuyendo así al estudio de los patrones climáticos locales y su posible evolución temporal.

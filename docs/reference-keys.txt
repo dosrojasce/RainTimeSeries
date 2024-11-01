@@ -1,5 +1,17 @@
+tab:unnamed-chunk-18
 importancia-del-análisis-de-la-precipitación
 analisisexploratorio
 datos-faltantes
 análisis-de-la-serie-temporal
 análisis-de-resultados
+descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación
+metodología
+evaluación-de-la-estacionariedad
+descomposición-de-la-serie-temporal
+transformación-logarítmica-y-análisis-de-diferenciación
+resultados-y-análisis
+análisis-de-estacionariedad
+estructura-temporal
+optimización-de-la-serie
+discusión-de-resultados
+conclusiones
