@@ -17,3 +17,5 @@ discusión-de-resultados
 conclusiones
 modelos-estacionarios-en-series-de-tiempo
 metodologia
+resultados-y-análisis-1
+conclusiones-1
