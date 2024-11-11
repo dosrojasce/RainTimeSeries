@@ -15,3 +15,5 @@ estructura-temporal
 optimización-de-la-serie
 discusión-de-resultados
 conclusiones
+modelos-estacionarios-en-series-de-tiempo
+metodologia

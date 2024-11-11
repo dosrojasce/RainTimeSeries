@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Sección 4 Modelos Estacionarios en Series de Tiempo | Análisis de Series Temporales de Lluvia: Estación VENADO ORO VIVERO [21205580]</title>
+  <meta name="description" content="Análisis de datos de precipitación diaria de la estación VENADO ORO VIVERO en Bogotá" />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Sección 4 Modelos Estacionarios en Series de Tiempo | Análisis de Series Temporales de Lluvia: Estación VENADO ORO VIVERO [21205580]" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Análisis de datos de precipitación diaria de la estación VENADO ORO VIVERO en Bogotá" />
+  <meta name="github-repo" content="seriestiempo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Sección 4 Modelos Estacionarios en Series de Tiempo | Análisis de Series Temporales de Lluvia: Estación VENADO ORO VIVERO [21205580]" />
+  
+  <meta name="twitter:description" content="Análisis de datos de precipitación diaria de la estación VENADO ORO VIVERO en Bogotá" />
+  
+
+<meta name="author" content="Dónoban Rojas" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/codefolding-lua-1.1/codefolding-lua.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.33/datatables.js"></script>
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="libs/selectize-0.12.0/selectize.min.js"></script>
+<link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #232629;
+    color: #7a7c7d;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d;  padding-left: 4px; }
+div.sourceCode
+  { color: #cfcfc2; background-color: #232629; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #cfcfc2; } /* Normal */
+code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
+code span.an { color: #3f8058; } /* Annotation */
+code span.at { color: #2980b9; } /* Attribute */
+code span.bn { color: #f67400; } /* BaseN */
+code span.bu { color: #7f8c8d; } /* BuiltIn */
+code span.cf { color: #fdbc4b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #3daee9; } /* Char */
+code span.cn { color: #27aeae; font-weight: bold; } /* Constant */
+code span.co { color: #7a7c7d; } /* Comment */
+code span.cv { color: #7f8c8d; } /* CommentVar */
+code span.do { color: #a43340; } /* Documentation */
+code span.dt { color: #2980b9; } /* DataType */
+code span.dv { color: #f67400; } /* DecVal */
+code span.er { color: #da4453; text-decoration: underline; } /* Error */
+code span.ex { color: #0099ff; font-weight: bold; } /* Extension */
+code span.fl { color: #f67400; } /* Float */
+code span.fu { color: #8e44ad; } /* Function */
+code span.im { color: #27ae60; } /* Import */
+code span.in { color: #c45b00; } /* Information */
+code span.kw { color: #cfcfc2; font-weight: bold; } /* Keyword */
+code span.op { color: #cfcfc2; } /* Operator */
+code span.ot { color: #27ae60; } /* Other */
+code span.pp { color: #27ae60; } /* Preprocessor */
+code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #da4453; } /* SpecialString */
+code span.st { color: #f44f4f; } /* String */
+code span.va { color: #27aeae; } /* Variable */
+code span.vs { color: #da4453; } /* VerbatimString */
+code span.wa { color: #da4453; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Series Temporales de Lluvia</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Importancia del Análisis de la Precipitación</a></li>
+<li class="chapter" data-level="2" data-path="analisisexploratorio.html"><a href="analisisexploratorio.html"><i class="fa fa-check"></i><b>2</b> Análisis Exploratorio</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="analisisexploratorio.html"><a href="analisisexploratorio.html#datos-faltantes"><i class="fa fa-check"></i><b>2.1</b> Datos Faltantes</a></li>
+<li class="chapter" data-level="2.2" data-path="analisisexploratorio.html"><a href="analisisexploratorio.html#análisis-de-la-serie-temporal"><i class="fa fa-check"></i><b>2.2</b> Análisis de la Serie Temporal</a></li>
+<li class="chapter" data-level="2.3" data-path="analisisexploratorio.html"><a href="analisisexploratorio.html#análisis-de-resultados"><i class="fa fa-check"></i><b>2.3</b> Análisis de Resultados</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><i class="fa fa-check"></i><b>3</b> Descomposición y Análisis de Estacionariedad en Series Temporales de Precipitación</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#metodología"><i class="fa fa-check"></i><b>3.1</b> Metodología</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#evaluación-de-la-estacionariedad"><i class="fa fa-check"></i><b>3.1.1</b> Evaluación de la Estacionariedad:</a></li>
+<li class="chapter" data-level="3.1.2" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#descomposición-de-la-serie-temporal"><i class="fa fa-check"></i><b>3.1.2</b> Descomposición de la Serie Temporal:</a></li>
+<li class="chapter" data-level="3.1.3" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#transformación-logarítmica-y-análisis-de-diferenciación"><i class="fa fa-check"></i><b>3.1.3</b> Transformación Logarítmica y Análisis de Diferenciación:</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#resultados-y-análisis"><i class="fa fa-check"></i><b>3.2</b> Resultados y Análisis</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#análisis-de-estacionariedad"><i class="fa fa-check"></i><b>3.2.1</b> Análisis de Estacionariedad</a></li>
+<li class="chapter" data-level="3.2.2" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#estructura-temporal"><i class="fa fa-check"></i><b>3.2.2</b> Estructura Temporal</a></li>
+<li class="chapter" data-level="3.2.3" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#optimización-de-la-serie"><i class="fa fa-check"></i><b>3.2.3</b> Optimización de la Serie</a></li>
+<li class="chapter" data-level="3.2.4" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#discusión-de-resultados"><i class="fa fa-check"></i><b>3.2.4</b> Discusión de Resultados</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#conclusiones"><i class="fa fa-check"></i><b>3.3</b> Conclusiones</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="modelos-estacionarios-en-series-de-tiempo.html"><a href="modelos-estacionarios-en-series-de-tiempo.html"><i class="fa fa-check"></i><b>4</b> Modelos Estacionarios en Series de Tiempo</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="modelos-estacionarios-en-series-de-tiempo.html"><a href="modelos-estacionarios-en-series-de-tiempo.html#metodologia"><i class="fa fa-check"></i><b>4.1</b> Metodologia</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Análisis de Series Temporales de Lluvia: Estación VENADO ORO VIVERO [21205580]</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="modelos-estacionarios-en-series-de-tiempo" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Sección 4</span> Modelos Estacionarios en Series de Tiempo<a href="modelos-estacionarios-en-series-de-tiempo.html#modelos-estacionarios-en-series-de-tiempo" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="metodologia" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Metodologia<a href="modelos-estacionarios-en-series-de-tiempo.html#metodologia" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Esquematizar los modelos convencionales de series de tiempo a través de la metodología Box-Jenkins para encontrar patrones que nos permitan predecir futuras observaciones.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb24-1" tabindex="-1"></a><span class="co"># resumen serie log-transformada</span></span>
+<span id="cb24-2"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb24-2" tabindex="-1"></a><span class="fu">summary</span>(ts_lluvia_log)</span></code></pre></div>
+</details>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##  0.0000  0.0000  0.4055  0.8853  1.5261  4.1352</code></pre>
+<p>La serie tiene valores mínimos en 0 indicando días sin precipitación y un máximo de 4.13 equivalente a una precipitación de aproximadamente 62 mm.</p>
+<p>La mediana es de 0.41 e indica que la mayoría de los días tienen precipitaciones bajas, y la media es de 0.89, indicando algunos eventos extremos.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb26-1" tabindex="-1"></a><span class="co"># Gráfico de la serie temporal log-transformada</span></span>
+<span id="cb26-2"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb26-2" tabindex="-1"></a><span class="fu">plot</span>(ts_lluvia_log, <span class="at">main =</span> <span class="st">&quot;Serie Log-Transformada&quot;</span>, <span class="at">col =</span> <span class="st">&quot;steelblue&quot;</span>)</span></code></pre></div>
+</details>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb27-1" tabindex="-1"></a><span class="co"># prueba ADF para confirmar estacionariedad</span></span>
+<span id="cb27-2"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb27-2" tabindex="-1"></a>adf_test1 <span class="ot">&lt;-</span> <span class="fu">adf.test</span>(ts_lluvia_log)</span>
+<span id="cb27-3"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb27-3" tabindex="-1"></a>adf_test1</span></code></pre></div>
+</details>
+<pre><code>## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  ts_lluvia_log
+## Dickey-Fuller = -14.113, Lag order = 17, p-value = 0.01
+## alternative hypothesis: stationary</code></pre>
+<p>la prueba de Dickey-Fuller aplicada a la serie diferenciada, muestra un estadístico negativo y un p-valor menor a 0.01 en todos los rezagos y tipos de prueba. Estos resultados permiten rechazar la hipótesis nula de no estacionariedad, lo que indica que la serie es estacionaria tras la transformación logarítmica.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb29-1" tabindex="-1"></a><span class="co"># grafico ACF</span></span>
+<span id="cb29-2"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb29-2" tabindex="-1"></a><span class="fu">Acf</span>(ts_lluvia_log, <span class="at">main =</span> <span class="st">&quot;ACF Serie Log-Transformada&quot;</span>, <span class="at">col =</span> <span class="st">&quot;steelblue&quot;</span>)</span></code></pre></div>
+</details>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p>El gráfico de ACF muestra una autocorrelación significativa en los primeros rezagos, lo que indica una dependencia temporal a corto plazo y se observan picos de autocorrelación que exceden las bandas, indicando patrones estacionales en la serie.
+La caída gradual de la autocorrelación a lo largo del tiempo indica una posible tendencia estacional de largo plazo. Ademas, los rezagos alrededor de 365 días muestran cierta correlación, lo que puede ser indicativo de un patrón anual en la precipitación.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb30-1" tabindex="-1"></a><span class="co"># Grafico Pacf</span></span>
+<span id="cb30-2"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb30-2" tabindex="-1"></a><span class="fu">Pacf</span>(ts_lluvia_log, <span class="at">main =</span> <span class="st">&quot;PACF Serie Log-Transformada&quot;</span>, <span class="at">col =</span> <span class="st">&quot;steelblue&quot;</span>)</span></code></pre></div>
+</details>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-25-1.png" width="672" />
+La gráfica de la PACF presenta un pico alto en el primer rezago, lo que indica una autocorrelación significativa con el valor inmediato anterior de la serie.
+A partir del segundo rezago, los valores caen rápidamente dentro de las bandas lo que indica una disminución de la autocorrelación para rezagos mayores.
+Este comportamiento es consistente con un posible modelo autorregresivo de bajo orden, como un AR(1).
+La falta prnunciados en rezagos más altos respalda la hipótesis de que no existe una correlación significativa de largo plazo en la serie.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb31-1" tabindex="-1"></a><span class="co"># modelo ARIMA</span></span>
+<span id="cb31-2"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb31-2" tabindex="-1"></a>modelo1 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(ts_lluvia_log)</span>
+<span id="cb31-3"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb31-3" tabindex="-1"></a><span class="fu">summary</span>(modelo1)</span></code></pre></div>
+</details>
+<pre><code>## Series: ts_lluvia_log 
+## ARIMA(2,0,1) with non-zero mean 
+## 
+## Coefficients:
+##          ar1      ar2      ma1    mean
+##       1.0953  -0.1984  -0.7475  0.8856
+## s.e.  0.0517   0.0295   0.0479  0.0297
+## 
+## sigma^2 = 0.7934:  log likelihood = -7004.13
+## AIC=14018.26   AICc=14018.27   BIC=14051.21
+## 
+## Training set error measures:
+##                         ME     RMSE       MAE  MPE MAPE      MASE         ACF1
+## Training set -0.0001313018 0.890378 0.7134034 -Inf  Inf 0.7125717 5.842737e-05</code></pre>
+<p>El modelo ajustado es un ARIMA(2,0,1), que parece capturar de manera adecuada la estructura temporal de la serie log-transformada de precipitación diaria, los coeficientes para las componentes autorregresivas ar1 = 1.0953 y ar2 = -0.1984 y la componente de media móvil ma1 = -0.7475, son significativos y presentan errores estándar bajos.
+Esto indica que las estimaciones son precisas y que el modelo es capaz de explicar bien la la serie temporal, el término de media distinta de cero - mean, indica que la serie transformada tiene un promedio positivo constante, lo que es coherente con los patrones de precipitación observados.
+En cuanto a los criterios de información, se obtuvieron valores relativamente bajos:
+- AIC = 14018.26
+- BIC = 14051.21
+Estos valores muestran un buen ajuste del modelo, ya que minimizan el balance entre la complejidad del modelo y su capacidad para explicar la variabilidad de los datos.</p>
+<p>Por otro lado, las metricas de error para el conjunto de entrenamiento muestran un buen desempeño del modelo:
+- ME (Error Medio) cercano a cero (-0.00013), lo que indica un sesgo mínimo en las predicciones.
+- RMSE (Raíz del Error Cuadrático Medio) de 0.890, representando el error promedio en la escala logarítmica de la precipitación.
+- MAE (Error Absoluto Medio) de 0.713, indicando que el error típico es bajo en comparación con la variabilidad de la serie.
+- MASE (Error Absoluto Medio Escalado) de 0.713, indicando que el error del modelo es comparable al de un modelo simple basado en el promedio.</p>
+<p>La baja autocorrelación del primer rezago de los residuos (ACF1 ≈ 0) evidencia que los residuos del modelo son independientes y se comportan como ruido blanco.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb33-1" tabindex="-1"></a><span class="co"># Diagnóstico de los residuos</span></span>
+<span id="cb33-2"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb33-2" tabindex="-1"></a><span class="fu">checkresiduals</span>(modelo1)</span></code></pre></div>
+</details>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<pre><code>## 
+##  Ljung-Box test
+## 
+## data:  Residuals from ARIMA(2,0,1) with non-zero mean
+## Q* = 748.1, df = 727, p-value = 0.2858
+## 
+## Model df: 3.   Total lags used: 730</code></pre>
+<p>Test de Ljung-Box:</p>
+<ul>
+<li>p-valor = 0.2858: El p-valor es mayor a 0.05, lo que significa que no podemos rechazar la hipótesis nula de que los residuos son independientes.
+Los residuos no presentan autocorrelación significativa, lo que valida que el modelo ajustado es adecuado.</li>
+</ul>
+<p>Interpretación diagnistico del residuo:</p>
+<p>los residuos del modelo ARIMA(2,0,1) indican que el ajuste es adecuado. El gráfico de residuos muestra un comportamiento aleatorio, sin patrones evidentes indicando que el modelo ha capturado la estructura temporal de la serie. La función de autocorrelación (ACF) confirma esta observación, ya que la mayoría de los residuos se encuentran dentro de las bandas, lo que indica la ausencia de autocorrelación significativa, además, el histograma muestra que los residuos tienen una distribución aproximadamente normal, aunque se observa una ligera asimetría hacia la derecha.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb35-1" tabindex="-1"></a><span class="co"># prueba de normalidad de los residuos</span></span>
+<span id="cb35-2"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb35-2" tabindex="-1"></a><span class="co"># no se puede aplicar la prueba shapiro debido a que los datos tienen mas de 5000 observaciones, por lo que se aplicará la prueba Jarque-Bera, que es más adecuada para muestras grandes.</span></span>
+<span id="cb35-3"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb35-3" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb35-4" tabindex="-1"></a>jarque_bera_test <span class="ot">&lt;-</span> <span class="fu">jarque.bera.test</span>(modelo1<span class="sc">$</span>residuals)</span>
+<span id="cb35-5"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb35-5" tabindex="-1"></a>jarque_bera_test</span></code></pre></div>
+</details>
+<pre><code>## 
+##  Jarque Bera Test
+## 
+## data:  modelo1$residuals
+## X-squared = 882.29, df = 2, p-value &lt; 2.2e-16</code></pre>
+<p>Los resultados de la prueba de Jarque-Bera indican que los residuos del modelo ARIMA(2,0,1) no siguen una distribución normal, lo cual es respaldado por el p-valor bajo. Aunque la no normalidad es común en series temporales con eventos extremos o alta variabilidad, sin embargo , la independencia de los residuos (según el test de Ljung-Box) indica que el modelo sigue capturando adecuadamente la estructura temporal de la serie, aunque los residuos presentan desviaciones de la normalidad.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb37-1" tabindex="-1"></a><span class="co"># prueba de independencia de los residuos (Ljung-Box)</span></span>
+<span id="cb37-2"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb37-2" tabindex="-1"></a>box_test <span class="ot">&lt;-</span> <span class="fu">Box.test</span>(modelo1<span class="sc">$</span>residuals, <span class="at">type =</span> <span class="st">&quot;Ljung-Box&quot;</span>)</span>
+<span id="cb37-3"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb37-3" tabindex="-1"></a>box_test</span></code></pre></div>
+</details>
+<pre><code>## 
+##  Box-Ljung test
+## 
+## data:  modelo1$residuals
+## X-squared = 1.8363e-05, df = 1, p-value = 0.9966</code></pre>
+<p>La prueba de Ljung-Box confirma que los residuos del modelo ARIMA no presentan autocorrelación significativa, lo que indica que los residuos se comportan como ruido blanco.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb39-1" tabindex="-1"></a><span class="co"># pronostico para los próximos 12 meses</span></span>
+<span id="cb39-2"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb39-2" tabindex="-1"></a>pronostico <span class="ot">&lt;-</span> <span class="fu">forecast</span>(modelo1, <span class="at">h =</span> <span class="dv">365</span>)</span>
+<span id="cb39-3"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb39-3" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb39-4" tabindex="-1"></a><span class="co"># Graficar el pronóstico</span></span>
+<span id="cb39-5"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb39-5" tabindex="-1"></a><span class="fu">plot</span>(pronostico, <span class="at">main =</span> <span class="st">&quot;Pronóstico Próximos 12 Meses&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;log(Precipitación)&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Año&quot;</span>)</span></code></pre></div>
+</details>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb40-1" tabindex="-1"></a><span class="co"># precisión del pronóstico</span></span>
+<span id="cb40-2"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb40-2" tabindex="-1"></a>mae <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>(pronostico<span class="sc">$</span>residuals)) ; mae</span></code></pre></div>
+</details>
+<pre><code>## [1] 0.7134034</code></pre>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="modelos-estacionarios-en-series-de-tiempo.html#cb42-1" tabindex="-1"></a>rmse <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>(pronostico<span class="sc">$</span>residuals<span class="sc">^</span><span class="dv">2</span>)) ; rmse</span></code></pre></div>
+</details>
+<pre><code>## [1] 0.890378</code></pre>
+<p>El modelo ARIMA proporciona un buen pronóstico, con errores relativamente bajos tanto en el MAE como en el RMSE, pero la diferencia entre estas dos métricas indica que podrían estar presentes algunos valores atípicos en los datos que afectan la precisión del modelo.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "night",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
