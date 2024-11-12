@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Sección 4 Métodos de Holt-Winters y Suavizamiento | Análisis de Series Temporales de Lluvia: Estación VENADO ORO VIVERO [21205580]</title>
+  <meta name="description" content="Análisis de datos de precipitación diaria de la estación VENADO ORO VIVERO en Bogotá" />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Sección 4 Métodos de Holt-Winters y Suavizamiento | Análisis de Series Temporales de Lluvia: Estación VENADO ORO VIVERO [21205580]" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Análisis de datos de precipitación diaria de la estación VENADO ORO VIVERO en Bogotá" />
+  <meta name="github-repo" content="seriestiempo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Sección 4 Métodos de Holt-Winters y Suavizamiento | Análisis de Series Temporales de Lluvia: Estación VENADO ORO VIVERO [21205580]" />
+  
+  <meta name="twitter:description" content="Análisis de datos de precipitación diaria de la estación VENADO ORO VIVERO en Bogotá" />
+  
+
+<meta name="author" content="Dónoban Rojas" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/codefolding-lua-1.1/codefolding-lua.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.33/datatables.js"></script>
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="libs/selectize-0.12.0/selectize.min.js"></script>
+<link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #232629;
+    color: #7a7c7d;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d;  padding-left: 4px; }
+div.sourceCode
+  { color: #cfcfc2; background-color: #232629; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #cfcfc2; } /* Normal */
+code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
+code span.an { color: #3f8058; } /* Annotation */
+code span.at { color: #2980b9; } /* Attribute */
+code span.bn { color: #f67400; } /* BaseN */
+code span.bu { color: #7f8c8d; } /* BuiltIn */
+code span.cf { color: #fdbc4b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #3daee9; } /* Char */
+code span.cn { color: #27aeae; font-weight: bold; } /* Constant */
+code span.co { color: #7a7c7d; } /* Comment */
+code span.cv { color: #7f8c8d; } /* CommentVar */
+code span.do { color: #a43340; } /* Documentation */
+code span.dt { color: #2980b9; } /* DataType */
+code span.dv { color: #f67400; } /* DecVal */
+code span.er { color: #da4453; text-decoration: underline; } /* Error */
+code span.ex { color: #0099ff; font-weight: bold; } /* Extension */
+code span.fl { color: #f67400; } /* Float */
+code span.fu { color: #8e44ad; } /* Function */
+code span.im { color: #27ae60; } /* Import */
+code span.in { color: #c45b00; } /* Information */
+code span.kw { color: #cfcfc2; font-weight: bold; } /* Keyword */
+code span.op { color: #cfcfc2; } /* Operator */
+code span.ot { color: #27ae60; } /* Other */
+code span.pp { color: #27ae60; } /* Preprocessor */
+code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #da4453; } /* SpecialString */
+code span.st { color: #f44f4f; } /* String */
+code span.va { color: #27aeae; } /* Variable */
+code span.vs { color: #da4453; } /* VerbatimString */
+code span.wa { color: #da4453; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Series Temporales de Lluvia</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Importancia del Análisis de la Precipitación</a></li>
+<li class="chapter" data-level="2" data-path="analisisexploratorio.html"><a href="analisisexploratorio.html"><i class="fa fa-check"></i><b>2</b> Análisis Exploratorio</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="analisisexploratorio.html"><a href="analisisexploratorio.html#datos-faltantes"><i class="fa fa-check"></i><b>2.1</b> Datos Faltantes</a></li>
+<li class="chapter" data-level="2.2" data-path="analisisexploratorio.html"><a href="analisisexploratorio.html#análisis-de-la-serie-temporal"><i class="fa fa-check"></i><b>2.2</b> Análisis de la Serie Temporal</a></li>
+<li class="chapter" data-level="2.3" data-path="analisisexploratorio.html"><a href="analisisexploratorio.html#análisis-de-resultados"><i class="fa fa-check"></i><b>2.3</b> Análisis de Resultados</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><i class="fa fa-check"></i><b>3</b> Descomposición y Análisis de Estacionariedad en Series Temporales de Precipitación</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#metodología"><i class="fa fa-check"></i><b>3.1</b> Metodología</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#evaluación-de-la-estacionariedad"><i class="fa fa-check"></i><b>3.1.1</b> Evaluación de la Estacionariedad:</a></li>
+<li class="chapter" data-level="3.1.2" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#descomposición-de-la-serie-temporal"><i class="fa fa-check"></i><b>3.1.2</b> Descomposición de la Serie Temporal:</a></li>
+<li class="chapter" data-level="3.1.3" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#transformación-logarítmica-y-análisis-de-diferenciación"><i class="fa fa-check"></i><b>3.1.3</b> Transformación Logarítmica y Análisis de Diferenciación:</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#análisis-de-resultados-1"><i class="fa fa-check"></i><b>3.2</b> Análisis de Resultados</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#análisis-de-estacionariedad"><i class="fa fa-check"></i><b>3.2.1</b> Análisis de Estacionariedad</a></li>
+<li class="chapter" data-level="3.2.2" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#estructura-temporal"><i class="fa fa-check"></i><b>3.2.2</b> Estructura Temporal</a></li>
+<li class="chapter" data-level="3.2.3" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#optimización-de-la-serie"><i class="fa fa-check"></i><b>3.2.3</b> Optimización de la Serie</a></li>
+<li class="chapter" data-level="3.2.4" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#discusión-de-resultados"><i class="fa fa-check"></i><b>3.2.4</b> Discusión de Resultados</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html"><i class="fa fa-check"></i><b>4</b> Métodos de Holt-Winters y Suavizamiento</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#metodologia"><i class="fa fa-check"></i><b>4.1</b> Metodologia</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#implementación-del-método-holt-winters-para-datos-mensuales"><i class="fa fa-check"></i><b>4.1.1</b> Implementación del método Holt-Winters para datos mensuales</a></li>
+<li class="chapter" data-level="4.1.2" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#métodos-de-suavización-para-datos-diarios"><i class="fa fa-check"></i><b>4.1.2</b> Métodos de Suavización para Datos Diarios</a></li>
+<li class="chapter" data-level="4.1.3" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#análisis-de-componentes-datos-mensuales"><i class="fa fa-check"></i><b>4.1.3</b> Análisis de Componentes (Datos Mensuales)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#análisis-de-resultados-2"><i class="fa fa-check"></i><b>4.2</b> Análisis de Resultados</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#análisis-del-modelo-holt-winters"><i class="fa fa-check"></i><b>4.2.1</b> Análisis del Modelo Holt-Winters</a></li>
+<li class="chapter" data-level="4.2.2" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#análisis-de-la-descomposición-temporal"><i class="fa fa-check"></i><b>4.2.2</b> Análisis de la Descomposición Temporal</a></li>
+<li class="chapter" data-level="4.2.3" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#análisis-de-las-técnicas-de-suavización"><i class="fa fa-check"></i><b>4.2.3</b> Análisis de las Técnicas de Suavización</a></li>
+<li class="chapter" data-level="4.2.4" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#pronósticos-y-tendencias"><i class="fa fa-check"></i><b>4.2.4</b> Pronósticos y Tendencias</a></li>
+<li class="chapter" data-level="4.2.5" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#limitaciones-y-consideraciones"><i class="fa fa-check"></i><b>4.2.5</b> Limitaciones y Consideraciones</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Análisis de Series Temporales de Lluvia: Estación VENADO ORO VIVERO [21205580]</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="holtwinters-suavizamiento" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Sección 4</span> Métodos de Holt-Winters y Suavizamiento<a href="holtwinters-suavizamiento.html#holtwinters-suavizamiento" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Este análisis amplía el trabajo previo sobre la serie temporal de precipitación diaria al aplicar métodos de Holt-Winters y técnicas de suavización exponencial. El objetivo es modelar patrones de estacionalidad y tendencias, y generar pronósticos precisos sobre el comportamiento de la precipitación en distintos horizontes temporales.</p>
+<div id="metodologia" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Metodologia<a href="holtwinters-suavizamiento.html#metodologia" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Para trabajar con los datos de alta frecuencia, implementamos dos enfoques que permiten mejorar la precisión de los pronósticos:</p>
+<ol style="list-style-type: decimal">
+<li><p>Agregación mensual para el método de Holt-Winters: Agrupamos la serie diaria en datos mensuales para observar patrones estacionales y tendencias de largo plazo, aprovechando la estructura aditiva y multiplicativa de Holt-Winters para modelar la variabilidad.</p></li>
+<li><p>Suavización de la serie diaria mediante métodos de media móvil y suavización exponencial: Aplicamos técnicas de suavización sobre la serie original de datos diarios para reducir la variabilidad de corto plazo y captar tendencias significativas en el tiempo.</p></li>
+</ol>
+<div id="implementación-del-método-holt-winters-para-datos-mensuales" class="section level3 hasAnchor" number="4.1.1">
+<h3><span class="header-section-number">4.1.1</span> Implementación del método Holt-Winters para datos mensuales<a href="holtwinters-suavizamiento.html#implementación-del-método-holt-winters-para-datos-mensuales" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Para aplicar el modelo de Holt-Winters, primero convertimos los datos diarios en una serie mensual, permitiendo captar patrones estacionales y de tendencia en intervalos de tiempo amplios. Posteriormente, utilizamos tanto el modelo aditivo como el multiplicativo, comparando su rendimiento para identificar cuál se adapta mejor a la estructura de la serie.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="holtwinters-suavizamiento.html#cb24-1" tabindex="-1"></a><span class="co"># Aplicar Holt-Winters a los datos mensuales</span></span>
+<span id="cb24-2"><a href="holtwinters-suavizamiento.html#cb24-2" tabindex="-1"></a>hw_aditivo <span class="ot">&lt;-</span> <span class="fu">hw</span>(ts_mensual, <span class="at">seasonal =</span> <span class="st">&quot;additive&quot;</span>, <span class="at">h =</span> <span class="dv">12</span>)  <span class="co"># Pronóstico para 12 meses</span></span>
+<span id="cb24-3"><a href="holtwinters-suavizamiento.html#cb24-3" tabindex="-1"></a>hw_multiplicativo <span class="ot">&lt;-</span> <span class="fu">hw</span>(ts_mensual, <span class="at">seasonal =</span> <span class="st">&quot;multiplicative&quot;</span>, <span class="at">h =</span> <span class="dv">12</span>)</span></code></pre></div>
+</details>
+<p>Cada modelo se visualiza y se evalúa a través de métricas de precisión, comparando las estructuras aditiva y multiplicativa para ver cuál proporciona una mejor predicción de la precipitación mensual.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="holtwinters-suavizamiento.html#cb25-1" tabindex="-1"></a><span class="co"># Visualizar resultados del modelo aditivo</span></span>
+<span id="cb25-2"><a href="holtwinters-suavizamiento.html#cb25-2" tabindex="-1"></a><span class="fu">plot</span>(hw_aditivo, <span class="at">main =</span> <span class="st">&quot;Método Holt-Winters Aditivo (Datos Mensuales)&quot;</span>,</span>
+<span id="cb25-3"><a href="holtwinters-suavizamiento.html#cb25-3" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Tiempo&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Precipitación Media Mensual (mm)&quot;</span>,</span>
+<span id="cb25-4"><a href="holtwinters-suavizamiento.html#cb25-4" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">&quot;darkblue&quot;</span>, <span class="at">fcol =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+</details>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="holtwinters-suavizamiento.html#cb26-1" tabindex="-1"></a><span class="co"># Visualizar resultados del modelo multiplicativo</span></span>
+<span id="cb26-2"><a href="holtwinters-suavizamiento.html#cb26-2" tabindex="-1"></a><span class="fu">plot</span>(hw_multiplicativo, <span class="at">main =</span> <span class="st">&quot;Método Holt-Winters Multiplicativo (Datos Mensuales)&quot;</span>,</span>
+<span id="cb26-3"><a href="holtwinters-suavizamiento.html#cb26-3" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Tiempo&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Precipitación Media Mensual (mm)&quot;</span>,</span>
+<span id="cb26-4"><a href="holtwinters-suavizamiento.html#cb26-4" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">&quot;darkgreen&quot;</span>, <span class="at">fcol =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+</details>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-23-2.png" width="672" /></p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="holtwinters-suavizamiento.html#cb27-1" tabindex="-1"></a><span class="co"># Comparar métricas de precisión</span></span>
+<span id="cb27-2"><a href="holtwinters-suavizamiento.html#cb27-2" tabindex="-1"></a>hw_aditivo_accuracy <span class="ot">&lt;-</span> <span class="fu">accuracy</span>(hw_aditivo)</span>
+<span id="cb27-3"><a href="holtwinters-suavizamiento.html#cb27-3" tabindex="-1"></a>hw_multiplicativo_accuracy <span class="ot">&lt;-</span> <span class="fu">accuracy</span>(hw_multiplicativo)</span>
+<span id="cb27-4"><a href="holtwinters-suavizamiento.html#cb27-4" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="holtwinters-suavizamiento.html#cb27-5" tabindex="-1"></a><span class="co"># Crear tabla comparativa</span></span>
+<span id="cb27-6"><a href="holtwinters-suavizamiento.html#cb27-6" tabindex="-1"></a>comparacion <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb27-7"><a href="holtwinters-suavizamiento.html#cb27-7" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">Modelo =</span> <span class="st">&quot;Holt-Winters Aditivo&quot;</span>, hw_aditivo_accuracy),</span>
+<span id="cb27-8"><a href="holtwinters-suavizamiento.html#cb27-8" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">Modelo =</span> <span class="st">&quot;Holt-Winters Multiplicativo&quot;</span>, hw_multiplicativo_accuracy)</span>
+<span id="cb27-9"><a href="holtwinters-suavizamiento.html#cb27-9" tabindex="-1"></a>)</span>
+<span id="cb27-10"><a href="holtwinters-suavizamiento.html#cb27-10" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="holtwinters-suavizamiento.html#cb27-11" tabindex="-1"></a><span class="fu">kable</span>(comparacion, <span class="at">caption =</span> <span class="st">&quot;Comparación de Métricas de Precisión (Datos Mensuales)&quot;</span>)</span></code></pre></div>
+</details>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-23">Table 4.1: </span>Comparación de Métricas de Precisión (Datos Mensuales)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Modelo
+</th>
+<th style="text-align:right;">
+ME
+</th>
+<th style="text-align:right;">
+RMSE
+</th>
+<th style="text-align:right;">
+MAE
+</th>
+<th style="text-align:right;">
+MPE
+</th>
+<th style="text-align:right;">
+MAPE
+</th>
+<th style="text-align:right;">
+MASE
+</th>
+<th style="text-align:right;">
+ACF1
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Training set
+</td>
+<td style="text-align:left;">
+Holt-Winters Aditivo
+</td>
+<td style="text-align:right;">
+-0.0120102
+</td>
+<td style="text-align:right;">
+1.685599
+</td>
+<td style="text-align:right;">
+1.340457
+</td>
+<td style="text-align:right;">
+-42.44121
+</td>
+<td style="text-align:right;">
+67.77488
+</td>
+<td style="text-align:right;">
+0.6617076
+</td>
+<td style="text-align:right;">
+0.0805037
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Training set1
+</td>
+<td style="text-align:left;">
+Holt-Winters Multiplicativo
+</td>
+<td style="text-align:right;">
+-0.0888112
+</td>
+<td style="text-align:right;">
+1.696740
+</td>
+<td style="text-align:right;">
+1.355115
+</td>
+<td style="text-align:right;">
+-49.68245
+</td>
+<td style="text-align:right;">
+72.73597
+</td>
+<td style="text-align:right;">
+0.6689436
+</td>
+<td style="text-align:right;">
+0.0881461
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="métodos-de-suavización-para-datos-diarios" class="section level3 hasAnchor" number="4.1.2">
+<h3><span class="header-section-number">4.1.2</span> Métodos de Suavización para Datos Diarios<a href="holtwinters-suavizamiento.html#métodos-de-suavización-para-datos-diarios" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Para la serie de datos diarios, aplicamos técnicas de suavización mediante medias móviles y suavización exponencial simple para reducir el “ruido” inherente a la frecuencia diaria y resaltar las tendencias subyacentes:</p>
+<ul>
+<li><p>Media móvil: Calculamos la media móvil para 7 y 30 días, lo cual permite analizar patrones de corto y mediano plazo en la serie, generando una visión menos volátil de la precipitación diaria.</p></li>
+<li><p>Suavización exponencial simple: Aplicamos suavización exponencial simple con un horizonte de pronóstico de 30 días, un método que otorga más peso a los datos recientes, capturando tendencias recientes sin eliminar los valores extremos de los datos.</p></li>
+</ul>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="holtwinters-suavizamiento.html#cb28-1" tabindex="-1"></a><span class="co"># Suavización con media móvil</span></span>
+<span id="cb28-2"><a href="holtwinters-suavizamiento.html#cb28-2" tabindex="-1"></a>ma_7 <span class="ot">&lt;-</span> <span class="fu">ma</span>(ts_lluvia, <span class="at">order =</span> <span class="dv">7</span>)    <span class="co"># Media móvil de 7 días</span></span>
+<span id="cb28-3"><a href="holtwinters-suavizamiento.html#cb28-3" tabindex="-1"></a>ma_30 <span class="ot">&lt;-</span> <span class="fu">ma</span>(ts_lluvia, <span class="at">order =</span> <span class="dv">30</span>)  <span class="co"># Media móvil de 30 días</span></span>
+<span id="cb28-4"><a href="holtwinters-suavizamiento.html#cb28-4" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="holtwinters-suavizamiento.html#cb28-5" tabindex="-1"></a><span class="co"># Suavización exponencial simple</span></span>
+<span id="cb28-6"><a href="holtwinters-suavizamiento.html#cb28-6" tabindex="-1"></a>ses_model <span class="ot">&lt;-</span> <span class="fu">ses</span>(ts_lluvia, <span class="at">h =</span> <span class="dv">30</span>)  <span class="co"># Pronóstico para 30 días</span></span>
+<span id="cb28-7"><a href="holtwinters-suavizamiento.html#cb28-7" tabindex="-1"></a></span>
+<span id="cb28-8"><a href="holtwinters-suavizamiento.html#cb28-8" tabindex="-1"></a><span class="co"># Visualización comparativa</span></span>
+<span id="cb28-9"><a href="holtwinters-suavizamiento.html#cb28-9" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">1</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb28-10"><a href="holtwinters-suavizamiento.html#cb28-10" tabindex="-1"></a></span>
+<span id="cb28-11"><a href="holtwinters-suavizamiento.html#cb28-11" tabindex="-1"></a><span class="co"># Gráfico 1: Serie original con MA-7</span></span>
+<span id="cb28-12"><a href="holtwinters-suavizamiento.html#cb28-12" tabindex="-1"></a><span class="fu">plot</span>(ts_lluvia, <span class="at">main =</span> <span class="st">&quot;Serie Original con Media Móvil de 7 días&quot;</span>,</span>
+<span id="cb28-13"><a href="holtwinters-suavizamiento.html#cb28-13" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Precipitación (mm)&quot;</span>, <span class="at">col =</span> <span class="st">&quot;gray70&quot;</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span>
+<span id="cb28-14"><a href="holtwinters-suavizamiento.html#cb28-14" tabindex="-1"></a><span class="fu">lines</span>(ma_7, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb28-15"><a href="holtwinters-suavizamiento.html#cb28-15" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Original&quot;</span>, <span class="st">&quot;MA-7&quot;</span>),</span>
+<span id="cb28-16"><a href="holtwinters-suavizamiento.html#cb28-16" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;gray70&quot;</span>, <span class="st">&quot;blue&quot;</span>), <span class="at">lty =</span> <span class="dv">1</span>)</span>
+<span id="cb28-17"><a href="holtwinters-suavizamiento.html#cb28-17" tabindex="-1"></a></span>
+<span id="cb28-18"><a href="holtwinters-suavizamiento.html#cb28-18" tabindex="-1"></a><span class="co"># Gráfico 2: Serie original con MA-30</span></span>
+<span id="cb28-19"><a href="holtwinters-suavizamiento.html#cb28-19" tabindex="-1"></a><span class="fu">plot</span>(ts_lluvia, <span class="at">main =</span> <span class="st">&quot;Serie Original con Media Móvil de 30 días&quot;</span>,</span>
+<span id="cb28-20"><a href="holtwinters-suavizamiento.html#cb28-20" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Precipitación (mm)&quot;</span>, <span class="at">col =</span> <span class="st">&quot;gray70&quot;</span>, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>)</span>
+<span id="cb28-21"><a href="holtwinters-suavizamiento.html#cb28-21" tabindex="-1"></a><span class="fu">lines</span>(ma_30, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb28-22"><a href="holtwinters-suavizamiento.html#cb28-22" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Original&quot;</span>, <span class="st">&quot;MA-30&quot;</span>),</span>
+<span id="cb28-23"><a href="holtwinters-suavizamiento.html#cb28-23" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;gray70&quot;</span>, <span class="st">&quot;red&quot;</span>), <span class="at">lty =</span> <span class="dv">1</span>)</span>
+<span id="cb28-24"><a href="holtwinters-suavizamiento.html#cb28-24" tabindex="-1"></a></span>
+<span id="cb28-25"><a href="holtwinters-suavizamiento.html#cb28-25" tabindex="-1"></a><span class="co"># Gráfico 3: Suavización exponencial simple</span></span>
+<span id="cb28-26"><a href="holtwinters-suavizamiento.html#cb28-26" tabindex="-1"></a><span class="fu">plot</span>(ses_model, <span class="at">main =</span> <span class="st">&quot;Suavización Exponencial Simple&quot;</span>,</span>
+<span id="cb28-27"><a href="holtwinters-suavizamiento.html#cb28-27" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Precipitación (mm)&quot;</span>, <span class="at">fcol =</span> <span class="st">&quot;green&quot;</span>)</span></code></pre></div>
+</details>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p>Cada una de estas técnicas se visualiza para comparar la serie original y suavizada, ayudando a observar las diferencias y evaluar qué técnica proporciona mayor claridad en la tendencia de la precipitación diaria.</p>
+</div>
+<div id="análisis-de-componentes-datos-mensuales" class="section level3 hasAnchor" number="4.1.3">
+<h3><span class="header-section-number">4.1.3</span> Análisis de Componentes (Datos Mensuales)<a href="holtwinters-suavizamiento.html#análisis-de-componentes-datos-mensuales" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Finalmente, el método de Holt-Winters permite extraer y analizar los componentes principales de la serie: nivel, tendencia y estacionalidad. Esto permite entender cómo cada componente contribuye a la variabilidad en la precipitación mensual, lo cual es clave para interpretar y ajustar los pronósticos. Presentamos los parámetros del modelo (Alpha, Beta, Gamma) y su influencia en los componentes.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="holtwinters-suavizamiento.html#cb29-1" tabindex="-1"></a><span class="co"># Extraer componentes del modelo aditivo mensual</span></span>
+<span id="cb29-2"><a href="holtwinters-suavizamiento.html#cb29-2" tabindex="-1"></a>componentes_hw <span class="ot">&lt;-</span> <span class="fu">decompose</span>(hw_aditivo<span class="sc">$</span>fitted)</span>
+<span id="cb29-3"><a href="holtwinters-suavizamiento.html#cb29-3" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="holtwinters-suavizamiento.html#cb29-4" tabindex="-1"></a><span class="co"># Visualizar componentes</span></span>
+<span id="cb29-5"><a href="holtwinters-suavizamiento.html#cb29-5" tabindex="-1"></a><span class="fu">plot</span>(componentes_hw, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
+</details>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p>Cada componente proporciona información sobre patrones clave de la serie temporal, y el análisis de los parámetros estimados ayuda a comprender el grado de ajuste del modelo a estos patrones</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="holtwinters-suavizamiento.html#cb30-1" tabindex="-1"></a><span class="co"># Análisis de los parámetros estimados</span></span>
+<span id="cb30-2"><a href="holtwinters-suavizamiento.html#cb30-2" tabindex="-1"></a>parametros <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb30-3"><a href="holtwinters-suavizamiento.html#cb30-3" tabindex="-1"></a>  Parámetro <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;Alpha (Nivel)&quot;</span>, <span class="st">&quot;Beta (Tendencia)&quot;</span>, <span class="st">&quot;Gamma (Estacional)&quot;</span>),</span>
+<span id="cb30-4"><a href="holtwinters-suavizamiento.html#cb30-4" tabindex="-1"></a>  <span class="at">Valor =</span> <span class="fu">round</span>(<span class="fu">c</span>(hw_aditivo<span class="sc">$</span>model<span class="sc">$</span>par[<span class="dv">1</span>],</span>
+<span id="cb30-5"><a href="holtwinters-suavizamiento.html#cb30-5" tabindex="-1"></a>                 hw_aditivo<span class="sc">$</span>model<span class="sc">$</span>par[<span class="dv">2</span>],</span>
+<span id="cb30-6"><a href="holtwinters-suavizamiento.html#cb30-6" tabindex="-1"></a>                 hw_aditivo<span class="sc">$</span>model<span class="sc">$</span>par[<span class="dv">3</span>]), <span class="dv">4</span>)</span>
+<span id="cb30-7"><a href="holtwinters-suavizamiento.html#cb30-7" tabindex="-1"></a>)</span>
+<span id="cb30-8"><a href="holtwinters-suavizamiento.html#cb30-8" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="holtwinters-suavizamiento.html#cb30-9" tabindex="-1"></a><span class="fu">kable</span>(parametros, <span class="at">caption =</span> <span class="st">&quot;Parámetros Estimados del Modelo Holt-Winters&quot;</span>)</span></code></pre></div>
+</details>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-26">Table 4.2: </span>Parámetros Estimados del Modelo Holt-Winters
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Parámetro
+</th>
+<th style="text-align:right;">
+Valor
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+alpha
+</td>
+<td style="text-align:left;">
+Alpha (Nivel)
+</td>
+<td style="text-align:right;">
+0.0587
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+beta
+</td>
+<td style="text-align:left;">
+Beta (Tendencia)
+</td>
+<td style="text-align:right;">
+0.0001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gamma
+</td>
+<td style="text-align:left;">
+Gamma (Estacional)
+</td>
+<td style="text-align:right;">
+0.0001
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="análisis-de-resultados-2" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Análisis de Resultados<a href="holtwinters-suavizamiento.html#análisis-de-resultados-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="análisis-del-modelo-holt-winters" class="section level3 hasAnchor" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> Análisis del Modelo Holt-Winters<a href="holtwinters-suavizamiento.html#análisis-del-modelo-holt-winters" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Los resultados del método Holt-Winters, tanto en su versión aditiva como multiplicativa, revelan varios aspectos importantes sobre el comportamiento de la precipitación:</p>
+<p><em>Comparación de Modelos:</em></p>
+<ul>
+<li><p>El modelo aditivo muestra un mejor desempeño general, con un RMSE de 1.686 mm comparado con 1.697 mm del modelo multiplicativo.</p></li>
+<li><p>El Error Medio (ME) es menor en el modelo aditivo (-0.012 mm vs -0.089 mm), indicando un sesgo ligeramente menor en las predicciones.</p></li>
+<li><p>Ambos modelos muestran valores bajos de ACF1 (0.081 y 0.088 respectivamente), sugiriendo que los residuos están adecuadamente descorrelacionados.</p></li>
+</ul>
+<p><em>Parámetros del Modelo:</em></p>
+<ul>
+<li><p>El valor Alpha (0.0587) indica una adaptación lenta a cambios en el nivel de la serie.</p></li>
+<li><p>Los valores muy bajos de Beta y Gamma (0.0001) sugieren que tanto la tendencia como la estacionalidad son bastante estables y cambian muy gradualmente.</p></li>
+<li><p>Esta combinación de parámetros produce un modelo conservador que prioriza la estabilidad sobre la adaptación rápida a cambios.</p></li>
+</ul>
+</div>
+<div id="análisis-de-la-descomposición-temporal" class="section level3 hasAnchor" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> Análisis de la Descomposición Temporal<a href="holtwinters-suavizamiento.html#análisis-de-la-descomposición-temporal" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>La descomposición de la serie temporal revela:</p>
+<p><em>Componentes:</em></p>
+<ul>
+<li><p>La serie observada muestra una clara variabilidad cíclica con amplitudes variables.</p></li>
+<li><p>El componente de tendencia indica una ligera disminución durante el período 2015-2017, seguida de una estabilización.</p></li>
+<li><p>El patrón estacional es consistente y bien definido, con una amplitud relativamente constante.</p></li>
+<li><p>El componente aleatorio muestra variabilidad moderada sin patrones evidentes.</p></li>
+</ul>
+</div>
+<div id="análisis-de-las-técnicas-de-suavización" class="section level3 hasAnchor" number="4.2.3">
+<h3><span class="header-section-number">4.2.3</span> Análisis de las Técnicas de Suavización<a href="holtwinters-suavizamiento.html#análisis-de-las-técnicas-de-suavización" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Las diferentes técnicas de suavización muestran:</p>
+<p><em>Medias Móviles:</em></p>
+<ul>
+<li><p>La media móvil de 7 días (línea azul) mantiene más detalle de la variabilidad a corto plazo.</p></li>
+<li><p>La media móvil de 30 días (línea roja) proporciona una visión más suavizada, revelando tendencias de mediano plazo.</p></li>
+</ul>
+<p><em>Suavización Exponencial:</em></p>
+<ul>
+<li>El método de suavización exponencial simple muestra efectividad en la reducción del ruido mientras mantiene la capacidad de respuesta a cambios en la serie.</li>
+</ul>
+</div>
+<div id="pronósticos-y-tendencias" class="section level3 hasAnchor" number="4.2.4">
+<h3><span class="header-section-number">4.2.4</span> Pronósticos y Tendencias<a href="holtwinters-suavizamiento.html#pronósticos-y-tendencias" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Los pronósticos generados, en las dos primeras imagenes, indican:</p>
+<ul>
+<li><p>Una tendencia estable para los próximos períodos con intervalos de confianza que se amplían gradualmente.</p></li>
+<li><p>La banda de predicción (área sombreada) muestra un ensanchamiento progresivo, indicando mayor incertidumbre en predicciones más lejanas.</p></li>
+<li><p>El modelo captura adecuadamente la estacionalidad histórica y la proyecta en sus predicciones.</p></li>
+</ul>
+</div>
+<div id="limitaciones-y-consideraciones" class="section level3 hasAnchor" number="4.2.5">
+<h3><span class="header-section-number">4.2.5</span> Limitaciones y Consideraciones<a href="holtwinters-suavizamiento.html#limitaciones-y-consideraciones" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li><p>Los altos valores de MAPE (67.77% para el modelo aditivo y 72.74% para el multiplicativo) sugieren que las predicciones puntuales deben interpretarse con cautela.</p></li>
+<li><p>La naturaleza variable de la precipitación diaria hace que los pronósticos sean más confiables en escalas temporales más amplias (mensuales) que en predicciones diarias.</p></li>
+</ul>
+<p>Esta análisis proporciona una base sólida para la comprensión del comportamiento temporal de la precipitación y su posible evolución futura, aunque se recomienda considerar los intervalos de confianza en la toma de decisiones basadas en estos pronósticos.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "night",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

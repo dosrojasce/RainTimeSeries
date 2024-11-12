@@ -27,8 +27,6 @@ github-repo: seriestiempo
 description: "Análisis de datos de precipitación diaria de la estación VENADO ORO VIVERO en Bogotá"
 ---
 
-
-
 # Importancia del Análisis de la Precipitación
 
 Se propone el análisis de los datos de precipitación diaria registrados en la estación climatológica “VENADO ORO VIVERO”, ubicada en Bogotá, con coordenadas 4.60° de latitud y -74.06° de longitud, y una altitud de 2,725 metros sobre el nivel del mar. Esta estación, parte de la red del Instituto de Hidrología, Meteorología y Estudios Ambientales (IDEAM), cuenta con datos históricos desde el 1 de agosto de 1965 hasta el 10 de agosto de 2022. La variable seleccionada es la precipitación diaria (PTPM_CON), medida en milímetros (mm).

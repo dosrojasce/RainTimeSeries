@@ -102,7 +102,7 @@ plot(ts_lluvia_log, main = "Serie Transformada (log)", col = "darkgreen",
      ylab = "log(Precipitación + 1)")
 ```
 
-## Resultados y Análisis
+## Análisis de Resultados
 
 
 ### Análisis de Estacionariedad
@@ -141,7 +141,7 @@ La transformación logarítmica implementada demuestra ser efectiva para:
 
 Es importante señalar que, aunque la serie es técnicamente estacionaria según la prueba de Dickey-Fuller, la presencia de patrones estacionales marcados y una tendencia suave sugiere la necesidad de considerar estos componentes en el proceso de modelamiento.
 
-## Conclusiones
+**Conclusiones**
 
 El análisis realizado proporciona evidencia sustancial sobre la estructura temporal de las precipitaciones en la estación VENADO ORO VIVERO. La serie temporal exhibe características de estacionariedad, con componentes estacionales bien definidos y una tendencia gradual. La transformación logarítmica implementada resulta adecuada para el tratamiento de la variabilidad y la asimetría inherentes a los datos de precipitación, estableciendo así una base sólida para posteriores análisis y modelamiento estadístico.
 

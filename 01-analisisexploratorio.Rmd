@@ -198,6 +198,24 @@ plot(ts_lluvia, main = "Serie Temporal de Precipitación Diaria",
      ylab = "Precipitación (mm)", xlab = "Año",
      col = "lightblue")
 ```
+```{r include=FALSE}
+# Agregar columna de año y mes al dataframe
+df_filtrado$YearMonth <- format(df_filtrado$Fecha, "%Y-%m")
+
+# Calcular medias mensuales
+df_mensual <- aggregate(ValorImputado ~ YearMonth, 
+                       data = df_filtrado, 
+                       FUN = mean)
+
+# Convertir a fechas el YearMonth
+fechas <- as.Date(paste0(df_mensual$YearMonth, "-01"))
+
+# Crear serie temporal mensual
+ts_mensual <- ts(df_mensual$ValorImputado, 
+                 start = c(year(min(fechas)), month(min(fechas))),
+                 frequency = 12)
+```
+
 La serie temporal de precipitación diaria muestra una marcada variabilidad, con valores que oscilan entre 0 y 60 mm. Ocasionalmente, se observan picos que superan los 50 mm, evidenciando la ocurrencia de eventos extremos de precipitación. Hacia los años más recientes, en particular el 2020, se aprecia una ligera tendencia hacia la disminución en la intensidad de las precipitaciones.
 
 ```{r}
