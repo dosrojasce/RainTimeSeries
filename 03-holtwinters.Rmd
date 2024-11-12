@@ -186,4 +186,4 @@ Los pronósticos generados, en las dos primeras imagenes, indican:
 
 - La naturaleza variable de la precipitación diaria hace que los pronósticos sean más confiables en escalas temporales más amplias (mensuales) que en predicciones diarias.
 
-Esta análisis proporciona una base sólida para la comprensión del comportamiento temporal de la precipitación y su posible evolución futura, aunque se recomienda considerar los intervalos de confianza en la toma de decisiones basadas en estos pronósticos.
+Este análisis proporciona una base sólida para la comprensión del comportamiento temporal de la precipitación y su posible evolución futura, aunque se recomienda considerar los intervalos de confianza en la toma de decisiones basadas en estos pronósticos.
