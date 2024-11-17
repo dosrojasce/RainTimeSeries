@@ -1,0 +1,243 @@
+# Modelos Estacionarios y Ajuste Lineal {#modelos-estacionarios}
+
+```{r include=FALSE}
+library(TSA)
+library(aTSA)
+library(forecast)
+library(tseries)
+```
+
+Este análisis complementa el trabajo previo sobre los métodos de Holt-Winters mediante la exploración de modelos estacionarios y ajustes lineales de la serie temporal. El objetivo es identificar y modelar los componentes fundamentales de la serie, asegurando su estacionariedad para realizar pronósticos más precisos.
+
+
+## Metodología
+
+Para el análisis de estacionariedad y ajuste de modelos lineales, se realizó el siguiente proceso:
+
+1. Análisis exploratorio de la serie temporal
+2. Verificación de estacionariedad
+3. Transformaciones necesarias para lograr estacionariedad
+4. Ajuste de modelos ARIMA
+5. Validación de residuales
+6. Generación de pronósticos
+
+### Análisis Exploratorio de la Serie
+
+El análisis inicial de la serie temporal revela sus características fundamentales y patrones de comportamiento:
+
+```{r}
+# Visualización inicial de la serie
+plot(ts_lluvia, main = "Serie Original de Precipitación",
+     xlab = "Tiempo", ylab = "Precipitación (mm)",
+     col = "darkblue")
+abline(reg = lm(ts_lluvia ~ time(ts_lluvia)), col = "red")
+```
+La serie muestra una alta variabilidad con valores que oscilan principalmente entre 0 y 40 mm de precipitación diaria, con algunos valores extremos que alcanzan los 60 mm. Se observa una ligera tendencia descendente a lo largo del período, particularmente visible después de 2015.
+
+```{r}
+# Análisis de ciclo estacional
+boxplot(ts_lluvia ~ cycle(ts_lluvia), 
+        main = "Patrón Estacional de Precipitación",
+        xlab = "Mes", ylab = "Precipitación (mm)")
+```
+La estacionalidad se evidencia claramente en el segundo gráfico, donde se distingue un patrón irregular de precipitaciones a lo largo del año. Este patrón muestra una mayor concentración de eventos de precipitación intensa en ciertos períodos específicos, junto con la presencia de numerosos días sin lluvia, representados por valores cercanos a cero. Además, se observa una notable variabilidad en la intensidad de las precipitaciones, con valores extremos que se distribuyen de manera no uniforme a lo largo del tiempo.
+
+
+### Verificación y Transformación para Estacionariedad
+
+Para asegurar la estacionariedad, necesaria para el modelado ARIMA, se aplicarón pruebas formales y transformaciones:
+
+```{r}
+# Test de Dickey-Fuller Aumentado
+adf.test(ts_lluvia)
+
+# Transformación logarítmica y diferenciación
+log_lluvia <- log(ts_lluvia + 1)  # +1 para manejar valores cero
+diff_log_lluvia <- diff(log_lluvia)
+
+# Verificar estacionariedad después de transformación
+adf.test(diff_log_lluvia)
+```
+El análisis de estacionariedad mediante la prueba de Dickey-Fuller Aumentada (ADF) revela resultados significativos:
+
+1. Serie Original:
+
+  - Los valores del estadístico ADF son altamente significativos (p ≤ 0.01) para todos los rezagos analizados
+  - Los tres tipos de prueba (sin deriva ni tendencia, con deriva, con deriva y tendencia) muestran resultados consistentes
+  - Los valores ADF varían desde -54.4 hasta -12.8, todos indicando un fuerte rechazo de la hipótesis nula de no estacionariedad
+
+
+2. Serie Diferenciada:
+
+  - La serie diferenciada muestra estadísticos ADF aún más extremos, con valores desde -107.6 hasta -35.3
+  - Mantiene la significancia estadística (p ≤ 0.01) en todos los casos
+  -Los resultados son robustos a través de los diferentes tipos de prueba y rezagos
+  
+### Ajuste del Modelo ARIMA
+
+Una vez confirmada la estacionariedad de la serie original, se procedió con el ajuste del modelo ARIMA:
+
+```{r}
+# Ajuste automático del modelo ARIMA
+modelo_arima <- auto.arima(ts_lluvia)
+
+# Resumen del modelo
+summary(modelo_arima)
+```
+### Validación del Modelo
+
+Se realizó un análisis completo de los residuales para verificar los supuestos del modelo:
+
+```{r}
+# Análisis de residuales
+residuales <- residuals(modelo_arima)
+
+# Gráficos diagnósticos
+par(mfrow=c(2,2))
+
+# 1. Gráfico de residuales vs tiempo
+plot(residuales, type='l', 
+     main='Residuales vs Tiempo',
+     ylab='Residuales', xlab='Tiempo')
+abline(h=0, col='red')
+
+# 2. Gráfico Q-Q para normalidad
+qqnorm(residuales)
+qqline(residuales)
+
+# 3. ACF de residuales
+acf(residuales, main='ACF de Residuales')
+
+# 4. PACF de residuales
+pacf(residuales, main='PACF de Residuales')
+
+par(mfrow=c(1,1))
+
+# Tests formales
+# Test de normalidad con una muestra aleatoria de 5000 observaciones
+set.seed(123) # Para reproducibilidad
+muestra_residuales <- sample(residuales, min(5000, length(residuales)))
+shapiro_test <- shapiro.test(muestra_residuales)
+print("Test de Shapiro-Wilk para normalidad (muestra aleatoria):")
+print(shapiro_test)
+
+# Test de independencia
+box_test <- Box.test(residuales, type = "Ljung-Box", lag = 20)
+print("Test de Ljung-Box para independencia:")
+print(box_test)
+```
+### Generación de Pronósticos
+
+Se generan y visualizan los pronósticos para los próximos períodos:
+
+```{r}
+pronostico <- forecast::forecast(modelo_arima, h = 30)
+
+# Visualización de pronósticos
+plot(pronostico, 
+     main = "Pronóstico de Precipitación",
+     xlab = "Tiempo", 
+     ylab = "Precipitación (mm)",
+     fcol = "red", 
+     shadecols = c("gray80", "gray90"))
+grid()
+
+# Tabla con valores pronosticados
+print(pronostico)
+```
+
+### Evaluación del Desempeño del Modelo
+
+Se calculan las métricas de precisión del modelo:
+```{r}
+# Métricas de precisión
+accuracy(modelo_arima)
+
+# Comparación con datos reales (últimos 30 días)
+n <- length(ts_lluvia)
+train <- subset(ts_lluvia, end = n-30)
+test <- subset(ts_lluvia, start = n-29)
+
+# Ajuste del modelo en datos de entrenamiento
+modelo_test <- auto.arima(train)
+forecast_test <- forecast::forecast(modelo_test, h = 30)
+
+# Error de predicción
+error_pred <- test - forecast_test$mean
+print("Error Medio Absoluto de Predicción:")
+print(mean(abs(error_pred)))
+```
+## Análisis de Resultados
+
+### Análisis del Modelo ARIMA
+
+El modelo seleccionado automáticamente es un ARIMA(4,0,1) con media no nula, lo cual indica:
+
+- Un componente autorregresivo de orden 4 (AR(4))
+- Ninguna diferenciación necesaria (confirma la estacionariedad inicial)
+- Un componente de media móvil de orden 1 (MA(1))
+
+Los coeficientes más significativos son:
+
+- AR1 (0.8246): fuerte dependencia del valor inmediatamente anterior
+- MA1 (-0.5681): corrección moderada de errores previos
+- Media (3.4678 mm): nivel medio de precipitación diaria
+
+### Diagnóstico de Residuales
+
+Análisis Visual:
+
+- Los residuales vs tiempo muestran una varianza relativamente constante alrededor de cero
+- El gráfico Q-Q muestra desviaciones de la normalidad, especialmente en las colas
+- Las funciones ACF y PACF muestran correlaciones dentro de las bandas de confianza
+
+
+Tests Formales:
+
+- Test de Shapiro-Wilk: p-valor < 2.2e-16 indica no normalidad de los residuales
+- Test de Ljung-Box: p-valor = 0.929 sugiere independencia de los residuales
+
+
+
+### Evaluación del Desempeño
+
+Las métricas de error muestran:
+
+- Error Medio (ME) cercano a cero (1.70e-05): ausencia de sesgo sistemático
+- RMSE de 6.48 mm: error cuadrático medio moderado
+- MAE de 3.83 mm: error absoluto medio aceptable
+- Error Medio Absoluto de Predicción: 3.34 mm, ligeramente mejor que el MAE del conjunto de entrenamiento
+
+### Pronósticos
+
+Los pronósticos generados muestran:
+
+- Valores puntuales cercanos a la media histórica (≈3.5 mm)
+- Intervalos de predicción amplios, reflejando la alta variabilidad inherente
+- Bandas de confianza del 80% y 95% que capturan adecuadamente la variabilidad histórica
+
+### Fortalezas y Limitaciones del Modelo
+
+Fortalezas:
+
+- Captura adecuadamente la estructura de autocorrelación
+- Residuales independientes (según Ljung-Box)
+- Error de predicción razonable para datos de precipitación diaria
+
+Limitaciones:
+
+- No normalidad de residuales
+- MAPE indefinido debido a valores cero en la serie
+- Intervalos de predicción amplios
+
+### Conclusiones
+
+El modelo ARIMA(4,0,1) proporciona un ajuste aceptable para datos de precipitación diaria, con errores de predicción razonables considerando la alta variabilidad inherente a este tipo de datos. Aunque no cumple el supuesto de normalidad, la independencia de los residuales y la precisión de las predicciones sugieren que es útil para propósitos prácticos de pronóstico a corto plazo.
+
+Las predicciones deben interpretarse con cautela, considerando:
+
+1. La amplitud de los intervalos de confianza
+2. La naturaleza variable de la precipitación
+3. La tendencia del modelo a regresar hacia la media
+
+Este análisis proporciona una base sólida para la comprensión y predicción del comportamiento de la precipitación diaria, aunque se recomienda complementar con otros indicadores meteorológicos para decisiones críticas.
