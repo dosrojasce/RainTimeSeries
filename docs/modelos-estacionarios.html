@@ -261,16 +261,16 @@ code span.wa { color: #da4453; } /* Warning */
 <span id="cb31-4"><a href="modelos-estacionarios.html#cb31-4" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">&quot;darkblue&quot;</span>)</span>
 <span id="cb31-5"><a href="modelos-estacionarios.html#cb31-5" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">reg =</span> <span class="fu">lm</span>(ts_lluvia <span class="sc">~</span> <span class="fu">time</span>(ts_lluvia)), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
 </details>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-28-1.png" width="672" />
-La serie muestra una alta variabilidad con valores que oscilan principalmente entre 0 y 40 mm de precipitación diaria, con algunos valores extremos que alcanzan los 60 mm. Se observa una ligera tendencia descendente a lo largo del período, particularmente visible después de 2015.</p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p>La serie muestra una alta variabilidad con valores que oscilan principalmente entre 0 y 40 mm de precipitación diaria, con algunos valores extremos que alcanzan los 60 mm. Se observa una ligera tendencia descendente a lo largo del período, particularmente visible después de 2015.</p>
 <details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="modelos-estacionarios.html#cb32-1" tabindex="-1"></a><span class="co"># Análisis de ciclo estacional</span></span>
 <span id="cb32-2"><a href="modelos-estacionarios.html#cb32-2" tabindex="-1"></a><span class="fu">boxplot</span>(ts_lluvia <span class="sc">~</span> <span class="fu">cycle</span>(ts_lluvia), </span>
 <span id="cb32-3"><a href="modelos-estacionarios.html#cb32-3" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">&quot;Patrón Estacional de Precipitación&quot;</span>,</span>
 <span id="cb32-4"><a href="modelos-estacionarios.html#cb32-4" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;Mes&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Precipitación (mm)&quot;</span>)</span></code></pre></div>
 </details>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-29-1.png" width="672" />
-La estacionalidad se evidencia claramente en el segundo gráfico, donde se distingue un patrón irregular de precipitaciones a lo largo del año. Este patrón muestra una mayor concentración de eventos de precipitación intensa en ciertos períodos específicos, junto con la presencia de numerosos días sin lluvia, representados por valores cercanos a cero. Además, se observa una notable variabilidad en la intensidad de las precipitaciones, con valores extremos que se distribuyen de manera no uniforme a lo largo del tiempo.</p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p>La estacionalidad se evidencia claramente en el segundo gráfico, donde se distingue un patrón irregular de precipitaciones a lo largo del año. Este patrón muestra una mayor concentración de eventos de precipitación intensa en ciertos períodos específicos, junto con la presencia de numerosos días sin lluvia, representados por valores cercanos a cero. Además, se observa una notable variabilidad en la intensidad de las precipitaciones, con valores extremos que se distribuyen de manera no uniforme a lo largo del tiempo.</p>
 </div>
 <div id="verificación-y-transformación-para-estacionariedad" class="section level3 hasAnchor" number="5.1.2">
 <h3><span class="header-section-number">5.1.2</span> Verificación y Transformación para Estacionariedad<a href="modelos-estacionarios.html#verificación-y-transformación-para-estacionariedad" class="anchor-section" aria-label="Anchor link to header"></a></h3>
