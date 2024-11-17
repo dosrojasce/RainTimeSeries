@@ -32,6 +32,7 @@ plot(ts_lluvia, main = "Serie Original de Precipitación",
      col = "darkblue")
 abline(reg = lm(ts_lluvia ~ time(ts_lluvia)), col = "red")
 ```
+
 La serie muestra una alta variabilidad con valores que oscilan principalmente entre 0 y 40 mm de precipitación diaria, con algunos valores extremos que alcanzan los 60 mm. Se observa una ligera tendencia descendente a lo largo del período, particularmente visible después de 2015.
 
 ```{r}
@@ -40,6 +41,7 @@ boxplot(ts_lluvia ~ cycle(ts_lluvia),
         main = "Patrón Estacional de Precipitación",
         xlab = "Mes", ylab = "Precipitación (mm)")
 ```
+
 La estacionalidad se evidencia claramente en el segundo gráfico, donde se distingue un patrón irregular de precipitaciones a lo largo del año. Este patrón muestra una mayor concentración de eventos de precipitación intensa en ciertos períodos específicos, junto con la presencia de numerosos días sin lluvia, representados por valores cercanos a cero. Además, se observa una notable variabilidad en la intensidad de las precipitaciones, con valores extremos que se distribuyen de manera no uniforme a lo largo del tiempo.
 
 
