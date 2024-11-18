@@ -17,7 +17,7 @@ Para el análisis de estacionariedad y ajuste de modelos lineales, se realizó e
 1. Análisis exploratorio de la serie temporal
 2. Verificación de estacionariedad
 3. Transformaciones necesarias para lograr estacionariedad
-4. Ajuste de modelos ARIMA
+4. Ajuste de modelos ARIMA (Autoregressive Integrated Moving Average)
 5. Validación de residuales
 6. Generación de pronósticos
 
@@ -30,19 +30,18 @@ El análisis inicial de la serie temporal revela sus características fundamenta
 plot(ts_lluvia, main = "Serie Original de Precipitación",
      xlab = "Tiempo", ylab = "Precipitación (mm)",
      col = "darkblue")
-abline(reg = lm(ts_lluvia ~ time(ts_lluvia)), col = "red")
 ```
 
 La serie muestra una alta variabilidad con valores que oscilan principalmente entre 0 y 40 mm de precipitación diaria, con algunos valores extremos que alcanzan los 60 mm. Se observa una ligera tendencia descendente a lo largo del período, particularmente visible después de 2015.
 
 ```{r}
 # Análisis de ciclo estacional
-boxplot(ts_lluvia ~ cycle(ts_lluvia), 
+boxplot(ts_mensual ~ cycle(ts_mensual), 
         main = "Patrón Estacional de Precipitación",
         xlab = "Mes", ylab = "Precipitación (mm)")
 ```
 
-La estacionalidad se evidencia claramente en el segundo gráfico, donde se distingue un patrón irregular de precipitaciones a lo largo del año. Este patrón muestra una mayor concentración de eventos de precipitación intensa en ciertos períodos específicos, junto con la presencia de numerosos días sin lluvia, representados por valores cercanos a cero. Además, se observa una notable variabilidad en la intensidad de las precipitaciones, con valores extremos que se distribuyen de manera no uniforme a lo largo del tiempo.
+La estacionalidad de las precipitaciones se evidencia claramente en el gráfico, donde se observan patrones distintivos a lo largo del año. Los meses 4 (abril) y 11 (noviembre) presentan las mayores medianas de precipitación y mayor dispersión, como se observa en el tamaño de las cajas. Los meses de julio a septiembre (7-9) muestran una notable disminución en las precipitaciones, con cajas más pequeñas y medianas más bajas, indicando un período más seco y con menor variabilidad. Se observan algunos valores atípicos (outliers) especialmente en los meses 7 y 10, representados por puntos individuales, que indican eventos de lluvia inusualmente intensos para esos meses. La transición entre estaciones húmedas y secas no es abrupta, sino que muestra cambios graduales, con meses intermedios como mayo (5) y octubre (10) que presentan niveles moderados de precipitación.
 
 
 ### Verificación y Transformación para Estacionariedad
@@ -73,7 +72,7 @@ El análisis de estacionariedad mediante la prueba de Dickey-Fuller Aumentada (A
 
   - La serie diferenciada muestra estadísticos ADF aún más extremos, con valores desde -107.6 hasta -35.3
   - Mantiene la significancia estadística (p ≤ 0.01) en todos los casos
-  -Los resultados son robustos a través de los diferentes tipos de prueba y rezagos
+  - Los resultados son robustos a través de los diferentes tipos de prueba y rezagos
   
 ### Ajuste del Modelo ARIMA
 

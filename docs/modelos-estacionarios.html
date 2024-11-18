@@ -247,7 +247,7 @@ code span.wa { color: #da4453; } /* Warning */
 <li>Análisis exploratorio de la serie temporal</li>
 <li>Verificación de estacionariedad</li>
 <li>Transformaciones necesarias para lograr estacionariedad</li>
-<li>Ajuste de modelos ARIMA</li>
+<li>Ajuste de modelos ARIMA (Autoregressive Integrated Moving Average)</li>
 <li>Validación de residuales</li>
 <li>Generación de pronósticos</li>
 </ol>
@@ -258,19 +258,18 @@ code span.wa { color: #da4453; } /* Warning */
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="modelos-estacionarios.html#cb31-1" tabindex="-1"></a><span class="co"># Visualización inicial de la serie</span></span>
 <span id="cb31-2"><a href="modelos-estacionarios.html#cb31-2" tabindex="-1"></a><span class="fu">plot</span>(ts_lluvia, <span class="at">main =</span> <span class="st">&quot;Serie Original de Precipitación&quot;</span>,</span>
 <span id="cb31-3"><a href="modelos-estacionarios.html#cb31-3" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Tiempo&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Precipitación (mm)&quot;</span>,</span>
-<span id="cb31-4"><a href="modelos-estacionarios.html#cb31-4" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">&quot;darkblue&quot;</span>)</span>
-<span id="cb31-5"><a href="modelos-estacionarios.html#cb31-5" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">reg =</span> <span class="fu">lm</span>(ts_lluvia <span class="sc">~</span> <span class="fu">time</span>(ts_lluvia)), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<span id="cb31-4"><a href="modelos-estacionarios.html#cb31-4" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">&quot;darkblue&quot;</span>)</span></code></pre></div>
 </details>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
 <p>La serie muestra una alta variabilidad con valores que oscilan principalmente entre 0 y 40 mm de precipitación diaria, con algunos valores extremos que alcanzan los 60 mm. Se observa una ligera tendencia descendente a lo largo del período, particularmente visible después de 2015.</p>
 <details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="modelos-estacionarios.html#cb32-1" tabindex="-1"></a><span class="co"># Análisis de ciclo estacional</span></span>
-<span id="cb32-2"><a href="modelos-estacionarios.html#cb32-2" tabindex="-1"></a><span class="fu">boxplot</span>(ts_lluvia <span class="sc">~</span> <span class="fu">cycle</span>(ts_lluvia), </span>
+<span id="cb32-2"><a href="modelos-estacionarios.html#cb32-2" tabindex="-1"></a><span class="fu">boxplot</span>(ts_mensual <span class="sc">~</span> <span class="fu">cycle</span>(ts_mensual), </span>
 <span id="cb32-3"><a href="modelos-estacionarios.html#cb32-3" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">&quot;Patrón Estacional de Precipitación&quot;</span>,</span>
 <span id="cb32-4"><a href="modelos-estacionarios.html#cb32-4" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;Mes&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Precipitación (mm)&quot;</span>)</span></code></pre></div>
 </details>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
-<p>La estacionalidad se evidencia claramente en el segundo gráfico, donde se distingue un patrón irregular de precipitaciones a lo largo del año. Este patrón muestra una mayor concentración de eventos de precipitación intensa en ciertos períodos específicos, junto con la presencia de numerosos días sin lluvia, representados por valores cercanos a cero. Además, se observa una notable variabilidad en la intensidad de las precipitaciones, con valores extremos que se distribuyen de manera no uniforme a lo largo del tiempo.</p>
+<p>La estacionalidad de las precipitaciones se evidencia claramente en el gráfico, donde se observan patrones distintivos a lo largo del año. Los meses 4 (abril) y 11 (noviembre) presentan las mayores medianas de precipitación y mayor dispersión, como se observa en el tamaño de las cajas. Los meses de julio a septiembre (7-9) muestran una notable disminución en las precipitaciones, con cajas más pequeñas y medianas más bajas, indicando un período más seco y con menor variabilidad. Se observan algunos valores atípicos (outliers) especialmente en los meses 7 y 10, representados por puntos individuales, que indican eventos de lluvia inusualmente intensos para esos meses. La transición entre estaciones húmedas y secas no es abrupta, sino que muestra cambios graduales, con meses intermedios como mayo (5) y octubre (10) que presentan niveles moderados de precipitación.</p>
 </div>
 <div id="verificación-y-transformación-para-estacionariedad" class="section level3 hasAnchor" number="5.1.2">
 <h3><span class="header-section-number">5.1.2</span> Verificación y Transformación para Estacionariedad<a href="modelos-estacionarios.html#verificación-y-transformación-para-estacionariedad" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -383,8 +382,8 @@ code span.wa { color: #da4453; } /* Warning */
 </ol>
 <ul>
 <li>La serie diferenciada muestra estadísticos ADF aún más extremos, con valores desde -107.6 hasta -35.3</li>
-<li>Mantiene la significancia estadística (p ≤ 0.01) en todos los casos
--Los resultados son robustos a través de los diferentes tipos de prueba y rezagos</li>
+<li>Mantiene la significancia estadística (p ≤ 0.01) en todos los casos</li>
+<li>Los resultados son robustos a través de los diferentes tipos de prueba y rezagos</li>
 </ul>
 </div>
 <div id="ajuste-del-modelo-arima" class="section level3 hasAnchor" number="5.1.3">
