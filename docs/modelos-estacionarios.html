@@ -263,7 +263,7 @@ code span.wa { color: #da4453; } /* Warning */
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
 <p>La serie muestra una alta variabilidad con valores que oscilan principalmente entre 0 y 40 mm de precipitación diaria, con algunos valores extremos que alcanzan los 60 mm. Se observa una ligera tendencia descendente a lo largo del período, particularmente visible después de 2015.</p>
 <details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="modelos-estacionarios.html#cb32-1" tabindex="-1"></a><span class="co"># Análisis de ciclo estacional</span></span>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="modelos-estacionarios.html#cb32-1" tabindex="-1"></a><span class="co"># Análisis de ciclo estacional mensual</span></span>
 <span id="cb32-2"><a href="modelos-estacionarios.html#cb32-2" tabindex="-1"></a><span class="fu">boxplot</span>(ts_mensual <span class="sc">~</span> <span class="fu">cycle</span>(ts_mensual), </span>
 <span id="cb32-3"><a href="modelos-estacionarios.html#cb32-3" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">&quot;Patrón Estacional de Precipitación&quot;</span>,</span>
 <span id="cb32-4"><a href="modelos-estacionarios.html#cb32-4" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">&quot;Mes&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Precipitación (mm)&quot;</span>)</span></code></pre></div>

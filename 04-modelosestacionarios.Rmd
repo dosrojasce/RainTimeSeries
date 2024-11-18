@@ -35,7 +35,7 @@ plot(ts_lluvia, main = "Serie Original de Precipitación",
 La serie muestra una alta variabilidad con valores que oscilan principalmente entre 0 y 40 mm de precipitación diaria, con algunos valores extremos que alcanzan los 60 mm. Se observa una ligera tendencia descendente a lo largo del período, particularmente visible después de 2015.
 
 ```{r}
-# Análisis de ciclo estacional
+# Análisis de ciclo estacional mensual
 boxplot(ts_mensual ~ cycle(ts_mensual), 
         main = "Patrón Estacional de Precipitación",
         xlab = "Mes", ylab = "Precipitación (mm)")
