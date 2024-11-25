@@ -42,7 +42,7 @@ evaluación-del-desempeño
 pronósticos
 fortalezas-y-limitaciones-del-modelo
 conclusiones
-modelo-prophet-para-series-temporales
+modelo-prophet
 metodología-2
 implementación-del-modelo-prophet
 análisis-de-componentes-y-visualización

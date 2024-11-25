@@ -90,6 +90,15 @@ autoplot(fc) +
 ```
 Se visualiza la serie de precipitación con los intervalos de confianza del 80% y 95% para los próximos 30 días. La línea azul representa los valores pronosticados, mientras que las áreas sombreadas en azul claro y oscuro muestran los intervalos de confianza.
 
+El intervalo del 80% (banda azul oscura) indica que existe un 80% de probabilidad de que el valor real de precipitación caiga dentro de ese rango.
+El intervalo del 95% (banda azul clara) indica una probabilidad del 95% de contener el valor real.
+
+La selección de estos niveles (80% y 95%) es una práctica estándar en estadística, donde el 95% se considera un nivel de confianza convencional para inferencia estadística, mientras que el 80% proporciona un rango más estrecho pero aún confiable para la toma de decisiones prácticas. En el contexto de la precipitación, estos intervalos son particularmente útiles pues:
+
+- Cuantifican la incertidumbre asociada con las predicciones
+- Proporcionan un rango realista de valores esperados
+- Ayudan en la planificación y toma de decisiones considerando diferentes escenarios de precipitación"
+
 
 ### Evaluación del Desempeño y Diagnóstico
 
@@ -113,7 +122,7 @@ residuals %>%
   geom_line() +
   ggtitle("Residuales del Modelo Prophet") +
   xlab("Fecha") +
-  ylab("Residuales") +
+  ylab("Residuales (mm)") +
   theme_minimal()
 ```
 
@@ -125,7 +134,7 @@ residuals %>%
   ggplot(aes(x = .resid)) +
   geom_histogram(binwidth = 1, fill = "blue", alpha = 0.5) +
   ggtitle("Distribución de Residuales") +
-  xlab("Residuales") +
+  xlab("Residuales (mm)") +
   ylab("Frecuencia") +
   theme_minimal()
 ```

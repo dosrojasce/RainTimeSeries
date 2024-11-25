@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Sección 6 Modelo Prophet para Series Temporales | Análisis de Series Temporales de Lluvia: Estación VENADO ORO VIVERO [21205580]</title>
+  <meta name="description" content="Análisis de datos de precipitación diaria de la estación VENADO ORO VIVERO en Bogotá" />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Sección 6 Modelo Prophet para Series Temporales | Análisis de Series Temporales de Lluvia: Estación VENADO ORO VIVERO [21205580]" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Análisis de datos de precipitación diaria de la estación VENADO ORO VIVERO en Bogotá" />
+  <meta name="github-repo" content="seriestiempo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Sección 6 Modelo Prophet para Series Temporales | Análisis de Series Temporales de Lluvia: Estación VENADO ORO VIVERO [21205580]" />
+  
+  <meta name="twitter:description" content="Análisis de datos de precipitación diaria de la estación VENADO ORO VIVERO en Bogotá" />
+  
+
+<meta name="author" content="Dónoban Rojas" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="modelos-estacionarios.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/codefolding-lua-1.1/codefolding-lua.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.33/datatables.js"></script>
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="libs/selectize-0.12.0/selectize.min.js"></script>
+<link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #232629;
+    color: #7a7c7d;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d;  padding-left: 4px; }
+div.sourceCode
+  { color: #cfcfc2; background-color: #232629; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #cfcfc2; } /* Normal */
+code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
+code span.an { color: #3f8058; } /* Annotation */
+code span.at { color: #2980b9; } /* Attribute */
+code span.bn { color: #f67400; } /* BaseN */
+code span.bu { color: #7f8c8d; } /* BuiltIn */
+code span.cf { color: #fdbc4b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #3daee9; } /* Char */
+code span.cn { color: #27aeae; font-weight: bold; } /* Constant */
+code span.co { color: #7a7c7d; } /* Comment */
+code span.cv { color: #7f8c8d; } /* CommentVar */
+code span.do { color: #a43340; } /* Documentation */
+code span.dt { color: #2980b9; } /* DataType */
+code span.dv { color: #f67400; } /* DecVal */
+code span.er { color: #da4453; text-decoration: underline; } /* Error */
+code span.ex { color: #0099ff; font-weight: bold; } /* Extension */
+code span.fl { color: #f67400; } /* Float */
+code span.fu { color: #8e44ad; } /* Function */
+code span.im { color: #27ae60; } /* Import */
+code span.in { color: #c45b00; } /* Information */
+code span.kw { color: #cfcfc2; font-weight: bold; } /* Keyword */
+code span.op { color: #cfcfc2; } /* Operator */
+code span.ot { color: #27ae60; } /* Other */
+code span.pp { color: #27ae60; } /* Preprocessor */
+code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #da4453; } /* SpecialString */
+code span.st { color: #f44f4f; } /* String */
+code span.va { color: #27aeae; } /* Variable */
+code span.vs { color: #da4453; } /* VerbatimString */
+code span.wa { color: #da4453; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Series Temporales de Lluvia</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Importancia del Análisis de la Precipitación</a></li>
+<li class="chapter" data-level="2" data-path="analisisexploratorio.html"><a href="analisisexploratorio.html"><i class="fa fa-check"></i><b>2</b> Análisis Exploratorio</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="analisisexploratorio.html"><a href="analisisexploratorio.html#datos-faltantes"><i class="fa fa-check"></i><b>2.1</b> Datos Faltantes</a></li>
+<li class="chapter" data-level="2.2" data-path="analisisexploratorio.html"><a href="analisisexploratorio.html#análisis-de-la-serie-temporal"><i class="fa fa-check"></i><b>2.2</b> Análisis de la Serie Temporal</a></li>
+<li class="chapter" data-level="2.3" data-path="analisisexploratorio.html"><a href="analisisexploratorio.html#análisis-de-resultados"><i class="fa fa-check"></i><b>2.3</b> Análisis de Resultados</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><i class="fa fa-check"></i><b>3</b> Descomposición y Análisis de Estacionariedad en Series Temporales de Precipitación</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#metodología"><i class="fa fa-check"></i><b>3.1</b> Metodología</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#evaluación-de-la-estacionariedad"><i class="fa fa-check"></i><b>3.1.1</b> Evaluación de la Estacionariedad:</a></li>
+<li class="chapter" data-level="3.1.2" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#descomposición-de-la-serie-temporal"><i class="fa fa-check"></i><b>3.1.2</b> Descomposición de la Serie Temporal:</a></li>
+<li class="chapter" data-level="3.1.3" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#transformación-logarítmica-y-análisis-de-diferenciación"><i class="fa fa-check"></i><b>3.1.3</b> Transformación Logarítmica y Análisis de Diferenciación:</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#análisis-de-resultados-1"><i class="fa fa-check"></i><b>3.2</b> Análisis de Resultados</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#análisis-de-estacionariedad"><i class="fa fa-check"></i><b>3.2.1</b> Análisis de Estacionariedad</a></li>
+<li class="chapter" data-level="3.2.2" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#estructura-temporal"><i class="fa fa-check"></i><b>3.2.2</b> Estructura Temporal</a></li>
+<li class="chapter" data-level="3.2.3" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#optimización-de-la-serie"><i class="fa fa-check"></i><b>3.2.3</b> Optimización de la Serie</a></li>
+<li class="chapter" data-level="3.2.4" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#discusión-de-resultados"><i class="fa fa-check"></i><b>3.2.4</b> Discusión de Resultados</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html"><i class="fa fa-check"></i><b>4</b> Métodos de Holt-Winters y Suavizamiento</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#metodologia"><i class="fa fa-check"></i><b>4.1</b> Metodologia</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#implementación-del-método-holt-winters-para-datos-mensuales"><i class="fa fa-check"></i><b>4.1.1</b> Implementación del método Holt-Winters para datos mensuales</a></li>
+<li class="chapter" data-level="4.1.2" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#métodos-de-suavización-para-datos-diarios"><i class="fa fa-check"></i><b>4.1.2</b> Métodos de Suavización para Datos Diarios</a></li>
+<li class="chapter" data-level="4.1.3" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#análisis-de-componentes-datos-mensuales"><i class="fa fa-check"></i><b>4.1.3</b> Análisis de Componentes (Datos Mensuales)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#análisis-de-resultados-2"><i class="fa fa-check"></i><b>4.2</b> Análisis de Resultados</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#análisis-del-modelo-holt-winters"><i class="fa fa-check"></i><b>4.2.1</b> Análisis del Modelo Holt-Winters</a></li>
+<li class="chapter" data-level="4.2.2" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#análisis-de-la-descomposición-temporal"><i class="fa fa-check"></i><b>4.2.2</b> Análisis de la Descomposición Temporal</a></li>
+<li class="chapter" data-level="4.2.3" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#análisis-de-las-técnicas-de-suavización"><i class="fa fa-check"></i><b>4.2.3</b> Análisis de las Técnicas de Suavización</a></li>
+<li class="chapter" data-level="4.2.4" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#pronósticos-y-tendencias"><i class="fa fa-check"></i><b>4.2.4</b> Pronósticos y Tendencias</a></li>
+<li class="chapter" data-level="4.2.5" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#limitaciones-y-consideraciones"><i class="fa fa-check"></i><b>4.2.5</b> Limitaciones y Consideraciones</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html"><i class="fa fa-check"></i><b>5</b> Modelos Estacionarios y Ajuste Lineal</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#metodología-1"><i class="fa fa-check"></i><b>5.1</b> Metodología</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#análisis-exploratorio-de-la-serie"><i class="fa fa-check"></i><b>5.1.1</b> Análisis Exploratorio de la Serie</a></li>
+<li class="chapter" data-level="5.1.2" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#verificación-y-transformación-para-estacionariedad"><i class="fa fa-check"></i><b>5.1.2</b> Verificación y Transformación para Estacionariedad</a></li>
+<li class="chapter" data-level="5.1.3" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#ajuste-del-modelo-arima"><i class="fa fa-check"></i><b>5.1.3</b> Ajuste del Modelo ARIMA</a></li>
+<li class="chapter" data-level="5.1.4" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#validación-del-modelo"><i class="fa fa-check"></i><b>5.1.4</b> Validación del Modelo</a></li>
+<li class="chapter" data-level="5.1.5" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#generación-de-pronósticos"><i class="fa fa-check"></i><b>5.1.5</b> Generación de Pronósticos</a></li>
+<li class="chapter" data-level="5.1.6" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#evaluación-del-desempeño-del-modelo"><i class="fa fa-check"></i><b>5.1.6</b> Evaluación del Desempeño del Modelo</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#análisis-de-resultados-3"><i class="fa fa-check"></i><b>5.2</b> Análisis de Resultados</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#análisis-del-modelo-arima"><i class="fa fa-check"></i><b>5.2.1</b> Análisis del Modelo ARIMA</a></li>
+<li class="chapter" data-level="5.2.2" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#diagnóstico-de-residuales"><i class="fa fa-check"></i><b>5.2.2</b> Diagnóstico de Residuales</a></li>
+<li class="chapter" data-level="5.2.3" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#evaluación-del-desempeño"><i class="fa fa-check"></i><b>5.2.3</b> Evaluación del Desempeño</a></li>
+<li class="chapter" data-level="5.2.4" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#pronósticos"><i class="fa fa-check"></i><b>5.2.4</b> Pronósticos</a></li>
+<li class="chapter" data-level="5.2.5" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#fortalezas-y-limitaciones-del-modelo"><i class="fa fa-check"></i><b>5.2.5</b> Fortalezas y Limitaciones del Modelo</a></li>
+<li class="chapter" data-level="5.2.6" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#conclusiones"><i class="fa fa-check"></i><b>5.2.6</b> Conclusiones</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="modelo-prophet.html"><a href="modelo-prophet.html"><i class="fa fa-check"></i><b>6</b> Modelo Prophet para Series Temporales</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="modelo-prophet.html"><a href="modelo-prophet.html#metodología-2"><i class="fa fa-check"></i><b>6.1</b> Metodología</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="modelo-prophet.html"><a href="modelo-prophet.html#implementación-del-modelo-prophet"><i class="fa fa-check"></i><b>6.1.1</b> Implementación del Modelo Prophet</a></li>
+<li class="chapter" data-level="6.1.2" data-path="modelo-prophet.html"><a href="modelo-prophet.html#análisis-de-componentes-y-visualización"><i class="fa fa-check"></i><b>6.1.2</b> Análisis de Componentes y Visualización</a></li>
+<li class="chapter" data-level="6.1.3" data-path="modelo-prophet.html"><a href="modelo-prophet.html#evaluación-del-desempeño-y-diagnóstico"><i class="fa fa-check"></i><b>6.1.3</b> Evaluación del Desempeño y Diagnóstico</a></li>
+<li class="chapter" data-level="6.1.4" data-path="modelo-prophet.html"><a href="modelo-prophet.html#comparación-con-modelo-arima"><i class="fa fa-check"></i><b>6.1.4</b> Comparación con Modelo ARIMA</a></li>
+<li class="chapter" data-level="6.1.5" data-path="modelo-prophet.html"><a href="modelo-prophet.html#justificación-del-enfoque-de-regresión"><i class="fa fa-check"></i><b>6.1.5</b> Justificación del Enfoque de Regresión</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="modelo-prophet.html"><a href="modelo-prophet.html#análisis-de-resultados-4"><i class="fa fa-check"></i><b>6.2</b> Análisis de Resultados</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Análisis de Series Temporales de Lluvia: Estación VENADO ORO VIVERO [21205580]</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="modelo-prophet" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Sección 6</span> Modelo Prophet para Series Temporales<a href="modelo-prophet.html#modelo-prophet" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Este análisis extiende los estudios previos de modelos ARIMA y Holt-Winters mediante la implementación del algoritmo Facebook Prophet, una herramienta moderna diseñada específicamente para el análisis de series temporales con características estacionales y tendencias no lineales. La elección de Prophet se justifica por su capacidad para manejar</p>
+<ul>
+<li>Datos con valores faltantes y outliers</li>
+<li>Cambios en la tendencia</li>
+<li>Múltiples estacionalidades</li>
+<li>Efectos de días festivos</li>
+<li>Patrones no lineales</li>
+</ul>
+<p>Además, se explorará la viabilidad de tratar la serie temporal como un problema de regresión, lo que permite incorporar variables explicativas adicionales y capturar relaciones más complejas en los datos.</p>
+<div id="metodología-2" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Metodología<a href="modelo-prophet.html#metodología-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>El proceso de análisis se estructura en las siguientes etapas:</p>
+<ol style="list-style-type: decimal">
+<li>Preparación y transformación de datos</li>
+</ol>
+<ul>
+<li>Conversión de la serie temporal a formato compatible con Prophet</li>
+<li>Manejo de valores atípicos y missing data</li>
+<li>Estructuración de features adicionales para el enfoque de regresión</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Ajuste del modelo Prophet</li>
+</ol>
+<ul>
+<li>Configuración de parámetros del modelo</li>
+<li>Incorporación de componentes estacionales</li>
+<li>Definición de puntos de cambio potenciales</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Análisis de componentes y generación de pronósticos</li>
+</ol>
+<ul>
+<li>Descomposición de la serie en tendencia, estacionalidad y residuos</li>
+<li>Generación de pronósticos con intervalos de confianza</li>
+<li>Evaluación de la incertidumbre en las predicciones</li>
+</ul>
+<ol start="4" style="list-style-type: decimal">
+<li>Evaluación y diagnóstico del modelo</li>
+</ol>
+<ul>
+<li>Análisis de residuales</li>
+<li>Validación cruzada temporal</li>
+<li>Comparación con modelos previos</li>
+</ul>
+<div id="implementación-del-modelo-prophet" class="section level3 hasAnchor" number="6.1.1">
+<h3><span class="header-section-number">6.1.1</span> Implementación del Modelo Prophet<a href="modelo-prophet.html#implementación-del-modelo-prophet" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>La preparación de datos requiere una estructura específica que Prophet pueda interpretar, con columnas ‘ds’ para fechas y ‘y’ para valores:</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="modelo-prophet.html#cb57-1" tabindex="-1"></a><span class="co"># Preparación de datos</span></span>
+<span id="cb57-2"><a href="modelo-prophet.html#cb57-2" tabindex="-1"></a>fecha_inicio <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">&quot;2010-01-01&quot;</span>)</span>
+<span id="cb57-3"><a href="modelo-prophet.html#cb57-3" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(ts_lluvia)</span>
+<span id="cb57-4"><a href="modelo-prophet.html#cb57-4" tabindex="-1"></a>fechas <span class="ot">&lt;-</span> <span class="fu">seq</span>(fecha_inicio, <span class="at">by =</span> <span class="st">&quot;day&quot;</span>, <span class="at">length.out =</span> n)</span>
+<span id="cb57-5"><a href="modelo-prophet.html#cb57-5" tabindex="-1"></a></span>
+<span id="cb57-6"><a href="modelo-prophet.html#cb57-6" tabindex="-1"></a><span class="co"># Dividir datos en entrenamiento y prueba</span></span>
+<span id="cb57-7"><a href="modelo-prophet.html#cb57-7" tabindex="-1"></a>train <span class="ot">&lt;-</span> ts_lluvia[<span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-30</span>)]</span>
+<span id="cb57-8"><a href="modelo-prophet.html#cb57-8" tabindex="-1"></a>test <span class="ot">&lt;-</span> ts_lluvia[(n<span class="dv">-29</span>)<span class="sc">:</span>n]</span>
+<span id="cb57-9"><a href="modelo-prophet.html#cb57-9" tabindex="-1"></a></span>
+<span id="cb57-10"><a href="modelo-prophet.html#cb57-10" tabindex="-1"></a><span class="co"># Crear dataframe para Prophet</span></span>
+<span id="cb57-11"><a href="modelo-prophet.html#cb57-11" tabindex="-1"></a>ts_df_train <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb57-12"><a href="modelo-prophet.html#cb57-12" tabindex="-1"></a>  <span class="at">fecha =</span> fechas[<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(train)],</span>
+<span id="cb57-13"><a href="modelo-prophet.html#cb57-13" tabindex="-1"></a>  <span class="at">precipitacion =</span> <span class="fu">as.numeric</span>(train)</span>
+<span id="cb57-14"><a href="modelo-prophet.html#cb57-14" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb57-15"><a href="modelo-prophet.html#cb57-15" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> fecha)</span>
+<span id="cb57-16"><a href="modelo-prophet.html#cb57-16" tabindex="-1"></a></span>
+<span id="cb57-17"><a href="modelo-prophet.html#cb57-17" tabindex="-1"></a><span class="co"># Ajustar modelo Prophet con datos de entrenamiento</span></span>
+<span id="cb57-18"><a href="modelo-prophet.html#cb57-18" tabindex="-1"></a>fit <span class="ot">&lt;-</span> ts_df_train <span class="sc">%&gt;%</span></span>
+<span id="cb57-19"><a href="modelo-prophet.html#cb57-19" tabindex="-1"></a>  <span class="fu">model</span>(<span class="at">prophet =</span> <span class="fu">prophet</span>(precipitacion))</span>
+<span id="cb57-20"><a href="modelo-prophet.html#cb57-20" tabindex="-1"></a></span>
+<span id="cb57-21"><a href="modelo-prophet.html#cb57-21" tabindex="-1"></a><span class="co"># Generar pronósticos para 30 días</span></span>
+<span id="cb57-22"><a href="modelo-prophet.html#cb57-22" tabindex="-1"></a>fc <span class="ot">&lt;-</span> fit <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h =</span> <span class="st">&quot;30 days&quot;</span>)</span></code></pre></div>
+</details>
+</div>
+<div id="análisis-de-componentes-y-visualización" class="section level3 hasAnchor" number="6.1.2">
+<h3><span class="header-section-number">6.1.2</span> Análisis de Componentes y Visualización<a href="modelo-prophet.html#análisis-de-componentes-y-visualización" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>La descomposición de la serie mediante Prophet nos permite examinar sus componentes fundamentales, proporcionando insights valiosos sobre la estructura temporal de las precipitaciones:</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="modelo-prophet.html#cb58-1" tabindex="-1"></a><span class="co"># Visualización de componentes y pronósticos</span></span>
+<span id="cb58-2"><a href="modelo-prophet.html#cb58-2" tabindex="-1"></a><span class="fu">autoplot</span>(fc) <span class="sc">+</span></span>
+<span id="cb58-3"><a href="modelo-prophet.html#cb58-3" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Pronóstico de Precipitación usando Prophet&quot;</span>) <span class="sc">+</span></span>
+<span id="cb58-4"><a href="modelo-prophet.html#cb58-4" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Fecha&quot;</span>) <span class="sc">+</span></span>
+<span id="cb58-5"><a href="modelo-prophet.html#cb58-5" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Precipitación (mm)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb58-6"><a href="modelo-prophet.html#cb58-6" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb58-7"><a href="modelo-prophet.html#cb58-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div>
+</details>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-37-1.png" width="672" />
+Se visualiza la serie de precipitación con los intervalos de confianza del 80% y 95% para los próximos 30 días. La línea azul representa los valores pronosticados, mientras que las áreas sombreadas en azul claro y oscuro muestran los intervalos de confianza.</p>
+<p>El intervalo del 80% (banda azul oscura) indica que existe un 80% de probabilidad de que el valor real de precipitación caiga dentro de ese rango.
+El intervalo del 95% (banda azul clara) indica una probabilidad del 95% de contener el valor real.</p>
+<p>La selección de estos niveles (80% y 95%) es una práctica estándar en estadística, donde el 95% se considera un nivel de confianza convencional para inferencia estadística, mientras que el 80% proporciona un rango más estrecho pero aún confiable para la toma de decisiones prácticas. En el contexto de la precipitación, estos intervalos son particularmente útiles pues:</p>
+<ul>
+<li>Cuantifican la incertidumbre asociada con las predicciones</li>
+<li>Proporcionan un rango realista de valores esperados</li>
+<li>Ayudan en la planificación y toma de decisiones considerando diferentes escenarios de precipitación”</li>
+</ul>
+</div>
+<div id="evaluación-del-desempeño-y-diagnóstico" class="section level3 hasAnchor" number="6.1.3">
+<h3><span class="header-section-number">6.1.3</span> Evaluación del Desempeño y Diagnóstico<a href="modelo-prophet.html#evaluación-del-desempeño-y-diagnóstico" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>El análisis de desempeño se realiza mediante múltiples métricas y técnicas diagnósticas para asegurar la robustez del modelo:</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="modelo-prophet.html#cb59-1" tabindex="-1"></a><span class="co"># Obtener métricas de ajuste</span></span>
+<span id="cb59-2"><a href="modelo-prophet.html#cb59-2" tabindex="-1"></a>accuracy_metrics <span class="ot">&lt;-</span> <span class="fu">accuracy</span>(fit)</span>
+<span id="cb59-3"><a href="modelo-prophet.html#cb59-3" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;Métricas de precisión del modelo Prophet:&quot;</span>)</span></code></pre></div>
+</details>
+<pre><code>## [1] &quot;Métricas de precisión del modelo Prophet:&quot;</code></pre>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="modelo-prophet.html#cb61-1" tabindex="-1"></a><span class="fu">print</span>(accuracy_metrics)</span></code></pre></div>
+</details>
+<pre><code>## # A tibble: 1 × 10
+##   .model  .type           ME  RMSE   MAE   MPE  MAPE  MASE RMSSE  ACF1
+##   &lt;chr&gt;   &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 prophet Training -0.000151  6.68  4.05  -Inf   Inf 0.812 0.713 0.261</code></pre>
+<p>la tabla muestra las métricas de error para el modelo Prophet, incluyendo el Error Medio (ME), la Raíz del Error Cuadrático Medio (RMSE), el Error Absoluto Medio (MAE), el Error Porcentual Medio (MPE), el Error Porcentual Absoluto Medio (MAPE), el Error Absoluto Escalonado Medio (MASE) y la Raíz Cuadrada del Error Cuadrático Medio Escalonado (RMSSE). Estas métricas indican un buen ajuste del modelo, con valores relativamente bajos de RMSE y MAE.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="modelo-prophet.html#cb63-1" tabindex="-1"></a><span class="co"># Extraer y analizar residuales</span></span>
+<span id="cb63-2"><a href="modelo-prophet.html#cb63-2" tabindex="-1"></a>residuals <span class="ot">&lt;-</span> <span class="fu">augment</span>(fit)</span>
+<span id="cb63-3"><a href="modelo-prophet.html#cb63-3" tabindex="-1"></a></span>
+<span id="cb63-4"><a href="modelo-prophet.html#cb63-4" tabindex="-1"></a><span class="co"># Visualización de residuales</span></span>
+<span id="cb63-5"><a href="modelo-prophet.html#cb63-5" tabindex="-1"></a>residuals <span class="sc">%&gt;%</span></span>
+<span id="cb63-6"><a href="modelo-prophet.html#cb63-6" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> fecha, <span class="at">y =</span> .resid)) <span class="sc">+</span></span>
+<span id="cb63-7"><a href="modelo-prophet.html#cb63-7" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb63-8"><a href="modelo-prophet.html#cb63-8" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Residuales del Modelo Prophet&quot;</span>) <span class="sc">+</span></span>
+<span id="cb63-9"><a href="modelo-prophet.html#cb63-9" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Fecha&quot;</span>) <span class="sc">+</span></span>
+<span id="cb63-10"><a href="modelo-prophet.html#cb63-10" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Residuales (mm)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb63-11"><a href="modelo-prophet.html#cb63-11" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+</details>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<p>Se observa una alta variabilidad en los residuales, con algunos picos que sugieren la presencia de valores atípicos en la serie de tiempo.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="modelo-prophet.html#cb64-1" tabindex="-1"></a><span class="co"># Distribución de residuales</span></span>
+<span id="cb64-2"><a href="modelo-prophet.html#cb64-2" tabindex="-1"></a>residuals <span class="sc">%&gt;%</span></span>
+<span id="cb64-3"><a href="modelo-prophet.html#cb64-3" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> .resid)) <span class="sc">+</span></span>
+<span id="cb64-4"><a href="modelo-prophet.html#cb64-4" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">fill =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb64-5"><a href="modelo-prophet.html#cb64-5" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Distribución de Residuales&quot;</span>) <span class="sc">+</span></span>
+<span id="cb64-6"><a href="modelo-prophet.html#cb64-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Residuales (mm)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb64-7"><a href="modelo-prophet.html#cb64-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>) <span class="sc">+</span></span>
+<span id="cb64-8"><a href="modelo-prophet.html#cb64-8" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+</details>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p>La forma de la distribución parece tener una leve asimetría, lo que podría indicar que los supuestos de normalidad no se cumplen completamente.</p>
+</div>
+<div id="comparación-con-modelo-arima" class="section level3 hasAnchor" number="6.1.4">
+<h3><span class="header-section-number">6.1.4</span> Comparación con Modelo ARIMA<a href="modelo-prophet.html#comparación-con-modelo-arima" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Para contextualizar el desempeño de Prophet, se comparan sus métricas con los modelos previamente ajustados:</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="modelo-prophet.html#cb65-1" tabindex="-1"></a><span class="co"># Calcular métricas de error</span></span>
+<span id="cb65-2"><a href="modelo-prophet.html#cb65-2" tabindex="-1"></a>rmse_prophet <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((fc<span class="sc">$</span>.mean <span class="sc">-</span> test)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb65-3"><a href="modelo-prophet.html#cb65-3" tabindex="-1"></a>mae_prophet <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>(fc<span class="sc">$</span>.mean <span class="sc">-</span> test))</span>
+<span id="cb65-4"><a href="modelo-prophet.html#cb65-4" tabindex="-1"></a></span>
+<span id="cb65-5"><a href="modelo-prophet.html#cb65-5" tabindex="-1"></a><span class="co"># Crear tabla comparativa de métricas</span></span>
+<span id="cb65-6"><a href="modelo-prophet.html#cb65-6" tabindex="-1"></a>modelos_comparacion <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb65-7"><a href="modelo-prophet.html#cb65-7" tabindex="-1"></a>  <span class="at">Modelo =</span> <span class="fu">c</span>(<span class="st">&quot;ARIMA&quot;</span>, <span class="st">&quot;Prophet&quot;</span>),</span>
+<span id="cb65-8"><a href="modelo-prophet.html#cb65-8" tabindex="-1"></a>  <span class="at">RMSE =</span> <span class="fu">c</span>(<span class="fl">6.48</span>, rmse_prophet),</span>
+<span id="cb65-9"><a href="modelo-prophet.html#cb65-9" tabindex="-1"></a>  <span class="at">MAE =</span> <span class="fu">c</span>(<span class="fl">3.83</span>, mae_prophet)</span>
+<span id="cb65-10"><a href="modelo-prophet.html#cb65-10" tabindex="-1"></a>)</span>
+<span id="cb65-11"><a href="modelo-prophet.html#cb65-11" tabindex="-1"></a><span class="fu">print</span>(modelos_comparacion)</span></code></pre></div>
+</details>
+<pre><code>##    Modelo     RMSE      MAE
+## 1   ARIMA 6.480000 3.830000
+## 2 Prophet 4.760472 3.038115</code></pre>
+<p>Se observa que el modelo Prophet presenta mejores valores en ambas métricas, lo que sugiere un mejor desempeño en comparación con el modelo ARIMA previamente analizado.</p>
+</div>
+<div id="justificación-del-enfoque-de-regresión" class="section level3 hasAnchor" number="6.1.5">
+<h3><span class="header-section-number">6.1.5</span> Justificación del Enfoque de Regresión<a href="modelo-prophet.html#justificación-del-enfoque-de-regresión" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>El tratamiento de la serie temporal como un problema de regresión se justifica por varios factores clave:</p>
+<ol style="list-style-type: decimal">
+<li>Incorporación de Variables Explicativas: El enfoque de regresión permite incluir variables meteorológicas adicionales que podrían influir en la precipitación.</li>
+<li>Flexibilidad en la Modelación: Prophet combina elementos de regresión con componentes de series temporales, permitiendo capturar tanto relaciones lineales como no lineales.</li>
+<li>Manejo de Estacionalidad: El modelo puede incorporar múltiples patrones estacionales y tendencias no lineales de manera más flexible que los modelos ARIMA tradicionales.</li>
+<li>Interpretabilidad: Los componentes del modelo pueden interpretarse de manera similar a una regresión, facilitando la comprensión de los factores que influyen en la precipitación.</li>
+</ol>
+<p>En resumen, el enfoque de regresión brinda oportunidades para mejorar las capacidades predictivas del modelo y profundizar en la comprensión de los factores subyacentes que influyen en la serie temporal de precipitación.</p>
+</div>
+</div>
+<div id="análisis-de-resultados-4" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Análisis de Resultados<a href="modelo-prophet.html#análisis-de-resultados-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>El modelo Prophet ha demostrado un desempeño superior al modelo ARIMA previamente analizado. El RMSE del modelo Prophet es de 4.76 mm, mientras que el del modelo ARIMA es de 6.48 mm. De manera similar, el MAE del modelo Prophet es de 2.99 mm, en comparación con el 3.83 mm del modelo ARIMA. Estos resultados indican que el modelo Prophet logra pronósticos más precisos de la precipitación.</p>
+<p>El análisis de los residuales del modelo Prophet revela cierta heterogeneidad, con algunos picos que sugieren valores atípicos. La distribución de los residuales también muestra ligera asimetría, lo que podría implicar incumplimiento parcial de los supuestos de normalidad. Esto sugiere oportunidades de mejora en el manejo de la variabilidad inherente a la serie temporal.</p>
+<p>Una fortaleza del modelo Prophet es su enfoque de regresión, el cual permite una mejor comprensión de los factores que influyen en la precipitación. Esto abre la posibilidad de incorporar variables meteorológicas adicionales, enriqueciendo el análisis y la capacidad predictiva del modelo.</p>
+<p>En conclusión, el modelo Prophet ha demostrado un desempeño superior al modelo ARIMA, con métricas de error más bajas. Sin embargo, persisten algunos desafíos relacionados con la heterogeneidad de la serie y el cumplimiento de supuestos estadísticos. El enfoque de regresión del modelo Prophet ofrece oportunidades para futuras mejoras, como la inclusión de variables explicativas adicionales.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="modelos-estacionarios.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "night",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
