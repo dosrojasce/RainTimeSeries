@@ -88,6 +88,7 @@ autoplot(fc) +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5))
 ```
+
 Se visualiza la serie de precipitación con los intervalos de confianza del 80% y 95% para los próximos 30 días. La línea azul representa los valores pronosticados, mientras que las áreas sombreadas en azul claro y oscuro muestran los intervalos de confianza.
 
 El intervalo del 80% (banda azul oscura) indica que existe un 80% de probabilidad de que el valor real de precipitación caiga dentro de ese rango.
