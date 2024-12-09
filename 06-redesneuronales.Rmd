@@ -119,7 +119,7 @@ title("Error Iterativo - Red Elman")
 ```
  
 
-Se puede observar que el error comienza en un valor cercano a 200 y disminuye progresivamente a medida que el modelo se entrena, estabilizándose alrededor de 0 después de aproximadamente 5000 iteraciones. Este gráfico nos permite visualizar la convergencia del modelo Elman durante el proceso de optimización.
+Se puede observar que el error comienza en un valor cercano a 200 y disminuye rapidamente a medida que el modelo se entrena, estabilizándose alrededor de 0. Este gráfico nos permite visualizar la convergencia del modelo Elman durante el proceso de optimización.
  
 ```{r}
 # Predicción con Elman
@@ -153,6 +153,14 @@ fit_jordan <- jordan(inputs_train,
                      learnFuncParams = c(0.01),
                      maxit = 5000)
 
+# Plot iterative error for Jordan model
+plotIterativeError(fit_jordan)
+title("Error Iterativo - Red Jordan")
+```
+
+La gráfica muestra el error iterativo del modelo de red neuronal de Jordan durante el proceso de entrenamiento. El error comienza relativamente alto, alrededor de 100, y luego disminuye rápidamente a medida que el modelo se optimiza, estabilizándose finalmente alrededor de 0. Esta gráfica permite visualizar la convergencia del modelo de Jordan y evaluar qué tan bien el proceso de entrenamiento reduce el error a lo largo del tiempo.
+
+```{r}
 # Predicción con Jordan
 pred_jordan_norm <- predict(fit_jordan, inputs_test)
 pred_jordan <- pred_jordan_norm * (max(outputs) - min(outputs)) + min(outputs)
@@ -168,7 +176,6 @@ legend("topright",
        col = c("black", "red"), 
        lty = 1)
 ```
-
 
 Al igual que en el caso del modelo Elman, el modelo Jordan parece capturar la tendencia general de la serie temporal, pero también presenta dificultades para predecir con precisión los valores extremos de precipitación. Esta visualización nos permite comparar el desempeño del modelo Jordan con el del modelo Elman en términos de su capacidad para modelar la dinámica de la precipitación.
 
