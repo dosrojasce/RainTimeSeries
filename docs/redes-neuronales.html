@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Sección 7 Redes Neuronales para Pronóstico de Precipitación | Análisis de Series Temporales de Lluvia: Estación VENADO ORO VIVERO [21205580]</title>
+  <meta name="description" content="Análisis de datos de precipitación diaria de la estación VENADO ORO VIVERO en Bogotá" />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Sección 7 Redes Neuronales para Pronóstico de Precipitación | Análisis de Series Temporales de Lluvia: Estación VENADO ORO VIVERO [21205580]" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Análisis de datos de precipitación diaria de la estación VENADO ORO VIVERO en Bogotá" />
+  <meta name="github-repo" content="seriestiempo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Sección 7 Redes Neuronales para Pronóstico de Precipitación | Análisis de Series Temporales de Lluvia: Estación VENADO ORO VIVERO [21205580]" />
+  
+  <meta name="twitter:description" content="Análisis de datos de precipitación diaria de la estación VENADO ORO VIVERO en Bogotá" />
+  
+
+<meta name="author" content="Dónoban Rojas" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="modelo-prophet.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/codefolding-lua-1.1/codefolding-lua.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.33/datatables.js"></script>
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
+<script src="libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="libs/selectize-0.12.0/selectize.min.js"></script>
+<link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #232629;
+    color: #7a7c7d;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #7a7c7d;  padding-left: 4px; }
+div.sourceCode
+  { color: #cfcfc2; background-color: #232629; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #cfcfc2; } /* Normal */
+code span.al { color: #95da4c; background-color: #4d1f24; font-weight: bold; } /* Alert */
+code span.an { color: #3f8058; } /* Annotation */
+code span.at { color: #2980b9; } /* Attribute */
+code span.bn { color: #f67400; } /* BaseN */
+code span.bu { color: #7f8c8d; } /* BuiltIn */
+code span.cf { color: #fdbc4b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #3daee9; } /* Char */
+code span.cn { color: #27aeae; font-weight: bold; } /* Constant */
+code span.co { color: #7a7c7d; } /* Comment */
+code span.cv { color: #7f8c8d; } /* CommentVar */
+code span.do { color: #a43340; } /* Documentation */
+code span.dt { color: #2980b9; } /* DataType */
+code span.dv { color: #f67400; } /* DecVal */
+code span.er { color: #da4453; text-decoration: underline; } /* Error */
+code span.ex { color: #0099ff; font-weight: bold; } /* Extension */
+code span.fl { color: #f67400; } /* Float */
+code span.fu { color: #8e44ad; } /* Function */
+code span.im { color: #27ae60; } /* Import */
+code span.in { color: #c45b00; } /* Information */
+code span.kw { color: #cfcfc2; font-weight: bold; } /* Keyword */
+code span.op { color: #cfcfc2; } /* Operator */
+code span.ot { color: #27ae60; } /* Other */
+code span.pp { color: #27ae60; } /* Preprocessor */
+code span.re { color: #2980b9; background-color: #153042; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #da4453; } /* SpecialString */
+code span.st { color: #f44f4f; } /* String */
+code span.va { color: #27aeae; } /* Variable */
+code span.vs { color: #da4453; } /* VerbatimString */
+code span.wa { color: #da4453; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Series Temporales de Lluvia</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Importancia del Análisis de la Precipitación</a></li>
+<li class="chapter" data-level="2" data-path="analisisexploratorio.html"><a href="analisisexploratorio.html"><i class="fa fa-check"></i><b>2</b> Análisis Exploratorio</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="analisisexploratorio.html"><a href="analisisexploratorio.html#datos-faltantes"><i class="fa fa-check"></i><b>2.1</b> Datos Faltantes</a></li>
+<li class="chapter" data-level="2.2" data-path="analisisexploratorio.html"><a href="analisisexploratorio.html#análisis-de-la-serie-temporal"><i class="fa fa-check"></i><b>2.2</b> Análisis de la Serie Temporal</a></li>
+<li class="chapter" data-level="2.3" data-path="analisisexploratorio.html"><a href="analisisexploratorio.html#análisis-de-resultados"><i class="fa fa-check"></i><b>2.3</b> Análisis de Resultados</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><i class="fa fa-check"></i><b>3</b> Descomposición y Análisis de Estacionariedad en Series Temporales de Precipitación</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#metodología"><i class="fa fa-check"></i><b>3.1</b> Metodología</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#evaluación-de-la-estacionariedad"><i class="fa fa-check"></i><b>3.1.1</b> Evaluación de la Estacionariedad:</a></li>
+<li class="chapter" data-level="3.1.2" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#descomposición-de-la-serie-temporal"><i class="fa fa-check"></i><b>3.1.2</b> Descomposición de la Serie Temporal:</a></li>
+<li class="chapter" data-level="3.1.3" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#transformación-logarítmica-y-análisis-de-diferenciación"><i class="fa fa-check"></i><b>3.1.3</b> Transformación Logarítmica y Análisis de Diferenciación:</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#análisis-de-resultados-1"><i class="fa fa-check"></i><b>3.2</b> Análisis de Resultados</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#análisis-de-estacionariedad"><i class="fa fa-check"></i><b>3.2.1</b> Análisis de Estacionariedad</a></li>
+<li class="chapter" data-level="3.2.2" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#estructura-temporal"><i class="fa fa-check"></i><b>3.2.2</b> Estructura Temporal</a></li>
+<li class="chapter" data-level="3.2.3" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#optimización-de-la-serie"><i class="fa fa-check"></i><b>3.2.3</b> Optimización de la Serie</a></li>
+<li class="chapter" data-level="3.2.4" data-path="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html"><a href="descomposición-y-análisis-de-estacionariedad-en-series-temporales-de-precipitación.html#discusión-de-resultados"><i class="fa fa-check"></i><b>3.2.4</b> Discusión de Resultados</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html"><i class="fa fa-check"></i><b>4</b> Métodos de Holt-Winters y Suavizamiento</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#metodologia"><i class="fa fa-check"></i><b>4.1</b> Metodologia</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#implementación-del-método-holt-winters-para-datos-mensuales"><i class="fa fa-check"></i><b>4.1.1</b> Implementación del método Holt-Winters para datos mensuales</a></li>
+<li class="chapter" data-level="4.1.2" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#métodos-de-suavización-para-datos-diarios"><i class="fa fa-check"></i><b>4.1.2</b> Métodos de Suavización para Datos Diarios</a></li>
+<li class="chapter" data-level="4.1.3" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#análisis-de-componentes-datos-mensuales"><i class="fa fa-check"></i><b>4.1.3</b> Análisis de Componentes (Datos Mensuales)</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#análisis-de-resultados-2"><i class="fa fa-check"></i><b>4.2</b> Análisis de Resultados</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#análisis-del-modelo-holt-winters"><i class="fa fa-check"></i><b>4.2.1</b> Análisis del Modelo Holt-Winters</a></li>
+<li class="chapter" data-level="4.2.2" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#análisis-de-la-descomposición-temporal"><i class="fa fa-check"></i><b>4.2.2</b> Análisis de la Descomposición Temporal</a></li>
+<li class="chapter" data-level="4.2.3" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#análisis-de-las-técnicas-de-suavización"><i class="fa fa-check"></i><b>4.2.3</b> Análisis de las Técnicas de Suavización</a></li>
+<li class="chapter" data-level="4.2.4" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#pronósticos-y-tendencias"><i class="fa fa-check"></i><b>4.2.4</b> Pronósticos y Tendencias</a></li>
+<li class="chapter" data-level="4.2.5" data-path="holtwinters-suavizamiento.html"><a href="holtwinters-suavizamiento.html#limitaciones-y-consideraciones"><i class="fa fa-check"></i><b>4.2.5</b> Limitaciones y Consideraciones</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html"><i class="fa fa-check"></i><b>5</b> Modelos Estacionarios y Ajuste Lineal</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#metodología-1"><i class="fa fa-check"></i><b>5.1</b> Metodología</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#análisis-exploratorio-de-la-serie"><i class="fa fa-check"></i><b>5.1.1</b> Análisis Exploratorio de la Serie</a></li>
+<li class="chapter" data-level="5.1.2" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#verificación-y-transformación-para-estacionariedad"><i class="fa fa-check"></i><b>5.1.2</b> Verificación y Transformación para Estacionariedad</a></li>
+<li class="chapter" data-level="5.1.3" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#ajuste-del-modelo-arima"><i class="fa fa-check"></i><b>5.1.3</b> Ajuste del Modelo ARIMA</a></li>
+<li class="chapter" data-level="5.1.4" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#validación-del-modelo"><i class="fa fa-check"></i><b>5.1.4</b> Validación del Modelo</a></li>
+<li class="chapter" data-level="5.1.5" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#generación-de-pronósticos"><i class="fa fa-check"></i><b>5.1.5</b> Generación de Pronósticos</a></li>
+<li class="chapter" data-level="5.1.6" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#evaluación-del-desempeño-del-modelo"><i class="fa fa-check"></i><b>5.1.6</b> Evaluación del Desempeño del Modelo</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#análisis-de-resultados-3"><i class="fa fa-check"></i><b>5.2</b> Análisis de Resultados</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#análisis-del-modelo-arima"><i class="fa fa-check"></i><b>5.2.1</b> Análisis del Modelo ARIMA</a></li>
+<li class="chapter" data-level="5.2.2" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#diagnóstico-de-residuales"><i class="fa fa-check"></i><b>5.2.2</b> Diagnóstico de Residuales</a></li>
+<li class="chapter" data-level="5.2.3" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#evaluación-del-desempeño"><i class="fa fa-check"></i><b>5.2.3</b> Evaluación del Desempeño</a></li>
+<li class="chapter" data-level="5.2.4" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#pronósticos"><i class="fa fa-check"></i><b>5.2.4</b> Pronósticos</a></li>
+<li class="chapter" data-level="5.2.5" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#fortalezas-y-limitaciones-del-modelo"><i class="fa fa-check"></i><b>5.2.5</b> Fortalezas y Limitaciones del Modelo</a></li>
+<li class="chapter" data-level="5.2.6" data-path="modelos-estacionarios.html"><a href="modelos-estacionarios.html#conclusiones"><i class="fa fa-check"></i><b>5.2.6</b> Conclusiones</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="modelo-prophet.html"><a href="modelo-prophet.html"><i class="fa fa-check"></i><b>6</b> Modelo Prophet para Series Temporales</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="modelo-prophet.html"><a href="modelo-prophet.html#metodología-2"><i class="fa fa-check"></i><b>6.1</b> Metodología</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="modelo-prophet.html"><a href="modelo-prophet.html#implementación-del-modelo-prophet"><i class="fa fa-check"></i><b>6.1.1</b> Implementación del Modelo Prophet</a></li>
+<li class="chapter" data-level="6.1.2" data-path="modelo-prophet.html"><a href="modelo-prophet.html#análisis-de-componentes-y-visualización"><i class="fa fa-check"></i><b>6.1.2</b> Análisis de Componentes y Visualización</a></li>
+<li class="chapter" data-level="6.1.3" data-path="modelo-prophet.html"><a href="modelo-prophet.html#evaluación-del-desempeño-y-diagnóstico"><i class="fa fa-check"></i><b>6.1.3</b> Evaluación del Desempeño y Diagnóstico</a></li>
+<li class="chapter" data-level="6.1.4" data-path="modelo-prophet.html"><a href="modelo-prophet.html#comparación-con-modelo-arima"><i class="fa fa-check"></i><b>6.1.4</b> Comparación con Modelo ARIMA</a></li>
+<li class="chapter" data-level="6.1.5" data-path="modelo-prophet.html"><a href="modelo-prophet.html#justificación-del-enfoque-de-regresión"><i class="fa fa-check"></i><b>6.1.5</b> Justificación del Enfoque de Regresión</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="modelo-prophet.html"><a href="modelo-prophet.html#análisis-de-resultados-4"><i class="fa fa-check"></i><b>6.2</b> Análisis de Resultados</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="redes-neuronales.html"><a href="redes-neuronales.html"><i class="fa fa-check"></i><b>7</b> Redes Neuronales para Pronóstico de Precipitación</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="redes-neuronales.html"><a href="redes-neuronales.html#metodología-3"><i class="fa fa-check"></i><b>7.1</b> Metodología</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="redes-neuronales.html"><a href="redes-neuronales.html#preparación-de-datos-para-redes-neuronales"><i class="fa fa-check"></i><b>7.1.1</b> Preparación de Datos para Redes Neuronales</a></li>
+<li class="chapter" data-level="7.1.2" data-path="redes-neuronales.html"><a href="redes-neuronales.html#entrenamiento-de-modelos-de-redes-neuronales"><i class="fa fa-check"></i><b>7.1.2</b> Entrenamiento de Modelos de Redes Neuronales</a></li>
+<li class="chapter" data-level="7.1.3" data-path="redes-neuronales.html"><a href="redes-neuronales.html#evaluación-de-modelos"><i class="fa fa-check"></i><b>7.1.3</b> Evaluación de Modelos</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="redes-neuronales.html"><a href="redes-neuronales.html#análisis-de-resultados-5"><i class="fa fa-check"></i><b>7.2</b> Análisis de Resultados</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Análisis de Series Temporales de Lluvia: Estación VENADO ORO VIVERO [21205580]</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="redes-neuronales" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Sección 7</span> Redes Neuronales para Pronóstico de Precipitación<a href="redes-neuronales.html#redes-neuronales" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>El pronóstico de precipitación es una tarea desafiante debido a la naturaleza compleja y altamente variable de los fenómenos meteorológicos. En este proyecto, exploraremos el uso de técnicas de redes neuronales recurrentes, específicamente las arquitecturas Elman y Jordan, para modelar y predecir series temporales de precipitación.</p>
+<div id="metodología-3" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Metodología<a href="redes-neuronales.html#metodología-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>La metodología se centra en la aplicación de dos arquitecturas de redes neuronales: Elman y Jordan. Estas redes neuronales recurrentes ofrecen capacidades únicas para capturar las dependencias temporales inherentes a los datos de precipitación, permitiendo modelar la compleja dinámica de las series temporales meteorológicas.</p>
+<p>El enfoque metodológico se estructura en tres etapas principales:</p>
+<ol style="list-style-type: decimal">
+<li>Preparación y transformación de datos</li>
+<li>Entrenamiento de modelos de redes neuronales</li>
+<li>Evaluación y análisis comparativo de los resultados</li>
+</ol>
+<p>A continuación, se detallarán cada una de estas etapas, describiendo los procedimientos técnicos, las decisiones de procesamiento y las estrategias de modelado implementadas para abordar el desafío de predecir series temporales de precipitación.</p>
+<div id="preparación-de-datos-para-redes-neuronales" class="section level3 hasAnchor" number="7.1.1">
+<h3><span class="header-section-number">7.1.1</span> Preparación de Datos para Redes Neuronales<a href="redes-neuronales.html#preparación-de-datos-para-redes-neuronales" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>El análisis de series temporales con redes neuronales requiere una cuidadosa preparación de los datos. En este caso, aplicaremos una transformación logarítmica a los datos de precipitación, seguida de la creación de variables de retardo para capturar la dependencia temporal.</p>
+<div id="transformación-logarítmica-de-datos-de-precipitación" class="section level4 hasAnchor" number="7.1.1.1">
+<h4><span class="header-section-number">7.1.1.1</span> Transformación Logarítmica de Datos de Precipitación<a href="redes-neuronales.html#transformación-logarítmica-de-datos-de-precipitación" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>La transformación logarítmica es una técnica fundamental en el preprocesamiento de series temporales de precipitación. Esto presenta varios beneficios:</p>
+<ol style="list-style-type: decimal">
+<li><p>Estabilización de la Varianza: Los datos de precipitación suelen tener alta variabilidad y asimetría. El logaritmo ayuda a comprimir la escala de valores extremos, reduciendo la dispersión de los datos.</p></li>
+<li><p>Normalización de la Distribución: Muchas series de precipitación tienen una distribución sesgada hacia la derecha. El logaritmo tiende a aproximar la distribución a una forma más simétrica y cercana a la normalidad.</p></li>
+<li><p>Mejor Rendimiento en Modelos de Aprendizaje Automático: Las redes neuronales generalmente procesan mejor datos con distribuciones más uniformes y rangos de valores más reducidos.</p></li>
+<li><p>Tratamiento de Valores Cercanos a Cero: Utilizamos log1p() (logaritmo natural de 1 + x) para manejar adecuadamente valores de precipitación muy bajos o cero, evitando problemas matemáticos.</p></li>
+</ol>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="redes-neuronales.html#cb67-1" tabindex="-1"></a><span class="co"># Transformación logarítmica de la serie temporal</span></span>
+<span id="cb67-2"><a href="redes-neuronales.html#cb67-2" tabindex="-1"></a>ts_lluvia_log <span class="ot">&lt;-</span> <span class="fu">log1p</span>(ts_lluvia)</span>
+<span id="cb67-3"><a href="redes-neuronales.html#cb67-3" tabindex="-1"></a></span>
+<span id="cb67-4"><a href="redes-neuronales.html#cb67-4" tabindex="-1"></a><span class="co"># Convertir ts a vector</span></span>
+<span id="cb67-5"><a href="redes-neuronales.html#cb67-5" tabindex="-1"></a>valor <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(ts_lluvia_log)</span></code></pre></div>
+</details>
+</div>
+<div id="creación-de-variables-de-retardo" class="section level4 hasAnchor" number="7.1.1.2">
+<h4><span class="header-section-number">7.1.1.2</span> Creación de Variables de Retardo<a href="redes-neuronales.html#creación-de-variables-de-retardo" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Para capturar la dependencia temporal de la serie de precipitación, creamos un conjunto de variables de retardo. Específicamente, utilizamos los 10 valores anteriores como variables de entrada, lo que permite a la red neuronal aprender patrones y estructuras a corto plazo.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="redes-neuronales.html#cb68-1" tabindex="-1"></a><span class="co"># Crear dataframe con rezagos</span></span>
+<span id="cb68-2"><a href="redes-neuronales.html#cb68-2" tabindex="-1"></a>df_serie <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb68-3"><a href="redes-neuronales.html#cb68-3" tabindex="-1"></a>  <span class="at">valor =</span> valor,</span>
+<span id="cb68-4"><a href="redes-neuronales.html#cb68-4" tabindex="-1"></a>  <span class="at">x1 =</span> stats<span class="sc">::</span><span class="fu">lag</span>(valor, <span class="dv">1</span>),</span>
+<span id="cb68-5"><a href="redes-neuronales.html#cb68-5" tabindex="-1"></a>  <span class="at">x2 =</span> stats<span class="sc">::</span><span class="fu">lag</span>(valor, <span class="dv">2</span>),</span>
+<span id="cb68-6"><a href="redes-neuronales.html#cb68-6" tabindex="-1"></a>  <span class="at">x3 =</span> stats<span class="sc">::</span><span class="fu">lag</span>(valor, <span class="dv">3</span>),</span>
+<span id="cb68-7"><a href="redes-neuronales.html#cb68-7" tabindex="-1"></a>  <span class="at">x4 =</span> stats<span class="sc">::</span><span class="fu">lag</span>(valor, <span class="dv">4</span>),</span>
+<span id="cb68-8"><a href="redes-neuronales.html#cb68-8" tabindex="-1"></a>  <span class="at">x5 =</span> stats<span class="sc">::</span><span class="fu">lag</span>(valor, <span class="dv">5</span>),</span>
+<span id="cb68-9"><a href="redes-neuronales.html#cb68-9" tabindex="-1"></a>  <span class="at">x6 =</span> stats<span class="sc">::</span><span class="fu">lag</span>(valor, <span class="dv">6</span>),</span>
+<span id="cb68-10"><a href="redes-neuronales.html#cb68-10" tabindex="-1"></a>  <span class="at">x7 =</span> stats<span class="sc">::</span><span class="fu">lag</span>(valor, <span class="dv">7</span>),</span>
+<span id="cb68-11"><a href="redes-neuronales.html#cb68-11" tabindex="-1"></a>  <span class="at">x8 =</span> stats<span class="sc">::</span><span class="fu">lag</span>(valor, <span class="dv">8</span>),</span>
+<span id="cb68-12"><a href="redes-neuronales.html#cb68-12" tabindex="-1"></a>  <span class="at">x9 =</span> stats<span class="sc">::</span><span class="fu">lag</span>(valor, <span class="dv">9</span>),</span>
+<span id="cb68-13"><a href="redes-neuronales.html#cb68-13" tabindex="-1"></a>  <span class="at">x10 =</span> stats<span class="sc">::</span><span class="fu">lag</span>(valor, <span class="dv">10</span>)</span>
+<span id="cb68-14"><a href="redes-neuronales.html#cb68-14" tabindex="-1"></a>)</span>
+<span id="cb68-15"><a href="redes-neuronales.html#cb68-15" tabindex="-1"></a></span>
+<span id="cb68-16"><a href="redes-neuronales.html#cb68-16" tabindex="-1"></a><span class="co"># Eliminar filas con NA</span></span>
+<span id="cb68-17"><a href="redes-neuronales.html#cb68-17" tabindex="-1"></a>df_serie <span class="ot">&lt;-</span> df_serie <span class="sc">%&gt;%</span> </span>
+<span id="cb68-18"><a href="redes-neuronales.html#cb68-18" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span>
+<span id="cb68-19"><a href="redes-neuronales.html#cb68-19" tabindex="-1"></a></span>
+<span id="cb68-20"><a href="redes-neuronales.html#cb68-20" tabindex="-1"></a><span class="co"># Definir conjuntos de entrenamiento y prueba</span></span>
+<span id="cb68-21"><a href="redes-neuronales.html#cb68-21" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df_serie)</span>
+<span id="cb68-22"><a href="redes-neuronales.html#cb68-22" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">floor</span>(<span class="fl">0.9</span><span class="sc">*</span>n)</span>
+<span id="cb68-23"><a href="redes-neuronales.html#cb68-23" tabindex="-1"></a></span>
+<span id="cb68-24"><a href="redes-neuronales.html#cb68-24" tabindex="-1"></a><span class="co"># Preparar inputs y outputs</span></span>
+<span id="cb68-25"><a href="redes-neuronales.html#cb68-25" tabindex="-1"></a>inputs <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(df_serie[, <span class="dv">2</span><span class="sc">:</span><span class="dv">11</span>])</span>
+<span id="cb68-26"><a href="redes-neuronales.html#cb68-26" tabindex="-1"></a>outputs <span class="ot">&lt;-</span> df_serie<span class="sc">$</span>valor</span></code></pre></div>
+</details>
+</div>
+<div id="normalización-de-datos" class="section level4 hasAnchor" number="7.1.1.3">
+<h4><span class="header-section-number">7.1.1.3</span> Normalización de Datos<a href="redes-neuronales.html#normalización-de-datos" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>La normalización es un paso crucial en el preprocesamiento de datos para redes neuronales. Permite escalar los valores de entrada y salida a un rango uniforme (generalmente entre 0 y 1), lo que mejora la convergencia del algoritmo de aprendizaje y ayuda a la red a procesar los datos más eficientemente.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="redes-neuronales.html#cb69-1" tabindex="-1"></a><span class="co"># Normalización de datos</span></span>
+<span id="cb69-2"><a href="redes-neuronales.html#cb69-2" tabindex="-1"></a>inputs_norm <span class="ot">&lt;-</span> (inputs <span class="sc">-</span> <span class="fu">min</span>(inputs)) <span class="sc">/</span> (<span class="fu">max</span>(inputs) <span class="sc">-</span> <span class="fu">min</span>(inputs))</span>
+<span id="cb69-3"><a href="redes-neuronales.html#cb69-3" tabindex="-1"></a>outputs_norm <span class="ot">&lt;-</span> (outputs <span class="sc">-</span> <span class="fu">min</span>(outputs)) <span class="sc">/</span> (<span class="fu">max</span>(outputs) <span class="sc">-</span> <span class="fu">min</span>(outputs))</span></code></pre></div>
+</details>
+</div>
+</div>
+<div id="entrenamiento-de-modelos-de-redes-neuronales" class="section level3 hasAnchor" number="7.1.2">
+<h3><span class="header-section-number">7.1.2</span> Entrenamiento de Modelos de Redes Neuronales<a href="redes-neuronales.html#entrenamiento-de-modelos-de-redes-neuronales" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Procedemos a entrenar dos modelos de redes neuronales recurrentes: Elman y Jordan. Ambas arquitecturas están diseñadas para capturar dependencias temporales en series de tiempo.</p>
+<div id="red-neuronal-elman" class="section level4 hasAnchor" number="7.1.2.1">
+<h4><span class="header-section-number">7.1.2.1</span> Red Neuronal Elman<a href="redes-neuronales.html#red-neuronal-elman" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Las redes de Elman son un tipo de red neuronal recurrente que incluye una capa de contexto, lo que les permite mantener un estado interno y capturar dependencias temporales en series de tiempo. En nuestro análisis, utilizaremos una arquitectura con dos capas ocultas para modelar la serie de precipitación.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="redes-neuronales.html#cb70-1" tabindex="-1"></a><span class="co"># Ajuste de entrenamiento y test</span></span>
+<span id="cb70-2"><a href="redes-neuronales.html#cb70-2" tabindex="-1"></a>inputs_train <span class="ot">&lt;-</span> inputs_norm[train, ]</span>
+<span id="cb70-3"><a href="redes-neuronales.html#cb70-3" tabindex="-1"></a>inputs_test <span class="ot">&lt;-</span> inputs_norm[<span class="sc">-</span>train, ]</span>
+<span id="cb70-4"><a href="redes-neuronales.html#cb70-4" tabindex="-1"></a>outputs_train <span class="ot">&lt;-</span> outputs_norm[train]</span>
+<span id="cb70-5"><a href="redes-neuronales.html#cb70-5" tabindex="-1"></a>outputs_test <span class="ot">&lt;-</span> outputs_norm[<span class="sc">-</span>train]</span>
+<span id="cb70-6"><a href="redes-neuronales.html#cb70-6" tabindex="-1"></a></span>
+<span id="cb70-7"><a href="redes-neuronales.html#cb70-7" tabindex="-1"></a><span class="co"># Entrenar red Elman</span></span>
+<span id="cb70-8"><a href="redes-neuronales.html#cb70-8" tabindex="-1"></a>fit_elman <span class="ot">&lt;-</span> <span class="fu">elman</span>(inputs_train,</span>
+<span id="cb70-9"><a href="redes-neuronales.html#cb70-9" tabindex="-1"></a>                   outputs_train,</span>
+<span id="cb70-10"><a href="redes-neuronales.html#cb70-10" tabindex="-1"></a>                   <span class="at">size =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">2</span>),  <span class="co"># Dos capas ocultas</span></span>
+<span id="cb70-11"><a href="redes-neuronales.html#cb70-11" tabindex="-1"></a>                   <span class="at">learnFuncParams =</span> <span class="fu">c</span>(<span class="fl">0.1</span>),</span>
+<span id="cb70-12"><a href="redes-neuronales.html#cb70-12" tabindex="-1"></a>                   <span class="at">maxit =</span> <span class="dv">5000</span>)</span>
+<span id="cb70-13"><a href="redes-neuronales.html#cb70-13" tabindex="-1"></a></span>
+<span id="cb70-14"><a href="redes-neuronales.html#cb70-14" tabindex="-1"></a><span class="co"># Visualizar error iterativo</span></span>
+<span id="cb70-15"><a href="redes-neuronales.html#cb70-15" tabindex="-1"></a><span class="fu">plotIterativeError</span>(fit_elman)</span>
+<span id="cb70-16"><a href="redes-neuronales.html#cb70-16" tabindex="-1"></a><span class="fu">title</span>(<span class="st">&quot;Error Iterativo - Red Elman&quot;</span>)</span></code></pre></div>
+</details>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
+<p>Se puede observar que el error comienza en un valor cercano a 200 y disminuye progresivamente a medida que el modelo se entrena, estabilizándose alrededor de 0 después de aproximadamente 5000 iteraciones. Este gráfico nos permite visualizar la convergencia del modelo Elman durante el proceso de optimización.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="redes-neuronales.html#cb71-1" tabindex="-1"></a><span class="co"># Predicción con Elman</span></span>
+<span id="cb71-2"><a href="redes-neuronales.html#cb71-2" tabindex="-1"></a>pred_elman_norm <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit_elman, inputs_test)</span>
+<span id="cb71-3"><a href="redes-neuronales.html#cb71-3" tabindex="-1"></a>pred_elman <span class="ot">&lt;-</span> pred_elman_norm <span class="sc">*</span> (<span class="fu">max</span>(outputs) <span class="sc">-</span> <span class="fu">min</span>(outputs)) <span class="sc">+</span> <span class="fu">min</span>(outputs)</span>
+<span id="cb71-4"><a href="redes-neuronales.html#cb71-4" tabindex="-1"></a></span>
+<span id="cb71-5"><a href="redes-neuronales.html#cb71-5" tabindex="-1"></a><span class="co"># Visualización de predicciones</span></span>
+<span id="cb71-6"><a href="redes-neuronales.html#cb71-6" tabindex="-1"></a><span class="fu">plot</span>(outputs_test, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, </span>
+<span id="cb71-7"><a href="redes-neuronales.html#cb71-7" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Predicción de Precipitación - Red Elman&quot;</span>,</span>
+<span id="cb71-8"><a href="redes-neuronales.html#cb71-8" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Tiempo&quot;</span>, </span>
+<span id="cb71-9"><a href="redes-neuronales.html#cb71-9" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Precipitación (mm)&quot;</span>)</span>
+<span id="cb71-10"><a href="redes-neuronales.html#cb71-10" tabindex="-1"></a><span class="fu">lines</span>(pred_elman, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb71-11"><a href="redes-neuronales.html#cb71-11" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, </span>
+<span id="cb71-12"><a href="redes-neuronales.html#cb71-12" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Valor Real&quot;</span>, <span class="st">&quot;Predicción Elman&quot;</span>), </span>
+<span id="cb71-13"><a href="redes-neuronales.html#cb71-13" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>), </span>
+<span id="cb71-14"><a href="redes-neuronales.html#cb71-14" tabindex="-1"></a>       <span class="at">lty =</span> <span class="dv">1</span>)</span></code></pre></div>
+</details>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
+<p>Se puede observar que el modelo Elman logra capturar la dinámica general de la serie temporal, aunque presenta dificultades para predecir con precisión los picos y fluctuaciones de la precipitación. Esta visualización nos permite evaluar el desempeño del modelo Elman en términos de su capacidad para reproducir los patrones de precipitación.</p>
+</div>
+<div id="red-neuronal-jordan" class="section level4 hasAnchor" number="7.1.2.2">
+<h4><span class="header-section-number">7.1.2.2</span> Red Neuronal Jordan<a href="redes-neuronales.html#red-neuronal-jordan" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Las redes de Jordan son otra variante de redes neuronales recurrentes, caracterizadas por realimentar la salida de la red como parte de la entrada en la siguiente iteración. Esta arquitectura puede ser particularmente útil para capturar patrones secuenciales en series temporales.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="redes-neuronales.html#cb72-1" tabindex="-1"></a><span class="co"># Entrenar red Jordan</span></span>
+<span id="cb72-2"><a href="redes-neuronales.html#cb72-2" tabindex="-1"></a>fit_jordan <span class="ot">&lt;-</span> <span class="fu">jordan</span>(inputs_train,</span>
+<span id="cb72-3"><a href="redes-neuronales.html#cb72-3" tabindex="-1"></a>                     outputs_train,</span>
+<span id="cb72-4"><a href="redes-neuronales.html#cb72-4" tabindex="-1"></a>                     <span class="at">size =</span> <span class="dv">4</span>,  <span class="co"># Una capa oculta</span></span>
+<span id="cb72-5"><a href="redes-neuronales.html#cb72-5" tabindex="-1"></a>                     <span class="at">learnFuncParams =</span> <span class="fu">c</span>(<span class="fl">0.01</span>),</span>
+<span id="cb72-6"><a href="redes-neuronales.html#cb72-6" tabindex="-1"></a>                     <span class="at">maxit =</span> <span class="dv">5000</span>)</span>
+<span id="cb72-7"><a href="redes-neuronales.html#cb72-7" tabindex="-1"></a></span>
+<span id="cb72-8"><a href="redes-neuronales.html#cb72-8" tabindex="-1"></a><span class="co"># Predicción con Jordan</span></span>
+<span id="cb72-9"><a href="redes-neuronales.html#cb72-9" tabindex="-1"></a>pred_jordan_norm <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit_jordan, inputs_test)</span>
+<span id="cb72-10"><a href="redes-neuronales.html#cb72-10" tabindex="-1"></a>pred_jordan <span class="ot">&lt;-</span> pred_jordan_norm <span class="sc">*</span> (<span class="fu">max</span>(outputs) <span class="sc">-</span> <span class="fu">min</span>(outputs)) <span class="sc">+</span> <span class="fu">min</span>(outputs)</span>
+<span id="cb72-11"><a href="redes-neuronales.html#cb72-11" tabindex="-1"></a></span>
+<span id="cb72-12"><a href="redes-neuronales.html#cb72-12" tabindex="-1"></a><span class="co"># Visualización de predicciones</span></span>
+<span id="cb72-13"><a href="redes-neuronales.html#cb72-13" tabindex="-1"></a><span class="fu">plot</span>(outputs_test, <span class="at">type =</span> <span class="st">&quot;l&quot;</span>, </span>
+<span id="cb72-14"><a href="redes-neuronales.html#cb72-14" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Predicción de Precipitación - Red Jordan&quot;</span>,</span>
+<span id="cb72-15"><a href="redes-neuronales.html#cb72-15" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Tiempo&quot;</span>, </span>
+<span id="cb72-16"><a href="redes-neuronales.html#cb72-16" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Precipitación (mm)&quot;</span>)</span>
+<span id="cb72-17"><a href="redes-neuronales.html#cb72-17" tabindex="-1"></a><span class="fu">lines</span>(pred_jordan, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb72-18"><a href="redes-neuronales.html#cb72-18" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, </span>
+<span id="cb72-19"><a href="redes-neuronales.html#cb72-19" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Valor Real&quot;</span>, <span class="st">&quot;Predicción Jordan&quot;</span>), </span>
+<span id="cb72-20"><a href="redes-neuronales.html#cb72-20" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>), </span>
+<span id="cb72-21"><a href="redes-neuronales.html#cb72-21" tabindex="-1"></a>       <span class="at">lty =</span> <span class="dv">1</span>)</span></code></pre></div>
+</details>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
+<p>Al igual que en el caso del modelo Elman, el modelo Jordan parece capturar la tendencia general de la serie temporal, pero también presenta dificultades para predecir con precisión los valores extremos de precipitación. Esta visualización nos permite comparar el desempeño del modelo Jordan con el del modelo Elman en términos de su capacidad para modelar la dinámica de la precipitación.</p>
+</div>
+</div>
+<div id="evaluación-de-modelos" class="section level3 hasAnchor" number="7.1.3">
+<h3><span class="header-section-number">7.1.3</span> Evaluación de Modelos<a href="redes-neuronales.html#evaluación-de-modelos" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Para evaluar el desempeño de los modelos, calculamos métricas de error estándar, como el Error Cuadrático Medio (RMSE), el Error Absoluto Medio (MAE) y el Error Porcentual Absoluto Medio (MAPE). Aplicamos la transformación inversa a los valores predichos para obtener las métricas en la escala original de los datos.</p>
+<details class=chunk-details><summary class=chunk-summary><span class=chunk-summary-text>Code</span></summary>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="redes-neuronales.html#cb73-1" tabindex="-1"></a><span class="co"># Función para calcular métricas de error con transformación inversa</span></span>
+<span id="cb73-2"><a href="redes-neuronales.html#cb73-2" tabindex="-1"></a>calcular_metricas <span class="ot">&lt;-</span> <span class="cf">function</span>(real_log, pred_elman_log, pred_jordan_log) {</span>
+<span id="cb73-3"><a href="redes-neuronales.html#cb73-3" tabindex="-1"></a>  <span class="co"># Transformación inversa (exponencial)</span></span>
+<span id="cb73-4"><a href="redes-neuronales.html#cb73-4" tabindex="-1"></a>  real <span class="ot">&lt;-</span> <span class="fu">expm1</span>(real_log)</span>
+<span id="cb73-5"><a href="redes-neuronales.html#cb73-5" tabindex="-1"></a>  pred_elman <span class="ot">&lt;-</span> <span class="fu">expm1</span>(pred_elman_log)</span>
+<span id="cb73-6"><a href="redes-neuronales.html#cb73-6" tabindex="-1"></a>  pred_jordan <span class="ot">&lt;-</span> <span class="fu">expm1</span>(pred_jordan_log)</span>
+<span id="cb73-7"><a href="redes-neuronales.html#cb73-7" tabindex="-1"></a>  </span>
+<span id="cb73-8"><a href="redes-neuronales.html#cb73-8" tabindex="-1"></a>  <span class="co"># Métricas para Elman</span></span>
+<span id="cb73-9"><a href="redes-neuronales.html#cb73-9" tabindex="-1"></a>  rmse_elman <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((real <span class="sc">-</span> pred_elman)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb73-10"><a href="redes-neuronales.html#cb73-10" tabindex="-1"></a>  mae_elman <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>(real <span class="sc">-</span> pred_elman))</span>
+<span id="cb73-11"><a href="redes-neuronales.html#cb73-11" tabindex="-1"></a>  mape_elman <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>((real <span class="sc">-</span> pred_elman) <span class="sc">/</span> real)) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb73-12"><a href="redes-neuronales.html#cb73-12" tabindex="-1"></a>  </span>
+<span id="cb73-13"><a href="redes-neuronales.html#cb73-13" tabindex="-1"></a>  <span class="co"># Métricas para Jordan</span></span>
+<span id="cb73-14"><a href="redes-neuronales.html#cb73-14" tabindex="-1"></a>  rmse_jordan <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((real <span class="sc">-</span> pred_jordan)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb73-15"><a href="redes-neuronales.html#cb73-15" tabindex="-1"></a>  mae_jordan <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>(real <span class="sc">-</span> pred_jordan))</span>
+<span id="cb73-16"><a href="redes-neuronales.html#cb73-16" tabindex="-1"></a>  mape_jordan <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>((real <span class="sc">-</span> pred_jordan) <span class="sc">/</span> real)) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb73-17"><a href="redes-neuronales.html#cb73-17" tabindex="-1"></a>  </span>
+<span id="cb73-18"><a href="redes-neuronales.html#cb73-18" tabindex="-1"></a>  <span class="co"># Crear dataframe de resultados</span></span>
+<span id="cb73-19"><a href="redes-neuronales.html#cb73-19" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">data.frame</span>(</span>
+<span id="cb73-20"><a href="redes-neuronales.html#cb73-20" tabindex="-1"></a>    <span class="at">Modelo =</span> <span class="fu">c</span>(<span class="st">&quot;Red Elman&quot;</span>, <span class="st">&quot;Red Jordan&quot;</span>),</span>
+<span id="cb73-21"><a href="redes-neuronales.html#cb73-21" tabindex="-1"></a>    <span class="at">RMSE =</span> <span class="fu">c</span>(rmse_elman, rmse_jordan),</span>
+<span id="cb73-22"><a href="redes-neuronales.html#cb73-22" tabindex="-1"></a>    <span class="at">MAE =</span> <span class="fu">c</span>(mae_elman, mae_jordan),</span>
+<span id="cb73-23"><a href="redes-neuronales.html#cb73-23" tabindex="-1"></a>    <span class="at">MAPE =</span> <span class="fu">c</span>(mape_elman, mape_jordan)</span>
+<span id="cb73-24"><a href="redes-neuronales.html#cb73-24" tabindex="-1"></a>  ))</span>
+<span id="cb73-25"><a href="redes-neuronales.html#cb73-25" tabindex="-1"></a>}</span>
+<span id="cb73-26"><a href="redes-neuronales.html#cb73-26" tabindex="-1"></a></span>
+<span id="cb73-27"><a href="redes-neuronales.html#cb73-27" tabindex="-1"></a><span class="co"># Calcular métricas con datos transformados</span></span>
+<span id="cb73-28"><a href="redes-neuronales.html#cb73-28" tabindex="-1"></a>metricas_nn <span class="ot">&lt;-</span> <span class="fu">calcular_metricas</span>(</span>
+<span id="cb73-29"><a href="redes-neuronales.html#cb73-29" tabindex="-1"></a>  outputs_test, </span>
+<span id="cb73-30"><a href="redes-neuronales.html#cb73-30" tabindex="-1"></a>  pred_elman_norm <span class="sc">*</span> (<span class="fu">max</span>(outputs) <span class="sc">-</span> <span class="fu">min</span>(outputs)) <span class="sc">+</span> <span class="fu">min</span>(outputs),</span>
+<span id="cb73-31"><a href="redes-neuronales.html#cb73-31" tabindex="-1"></a>  pred_jordan_norm <span class="sc">*</span> (<span class="fu">max</span>(outputs) <span class="sc">-</span> <span class="fu">min</span>(outputs)) <span class="sc">+</span> <span class="fu">min</span>(outputs)</span>
+<span id="cb73-32"><a href="redes-neuronales.html#cb73-32" tabindex="-1"></a>)</span>
+<span id="cb73-33"><a href="redes-neuronales.html#cb73-33" tabindex="-1"></a><span class="fu">kable</span>(metricas_nn, <span class="at">caption =</span> <span class="st">&quot;Métricas de Error - Redes Neuronales&quot;</span>)</span></code></pre></div>
+</details>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-49">Table 7.1: </span>Métricas de Error - Redes Neuronales
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Modelo
+</th>
+<th style="text-align:right;">
+RMSE
+</th>
+<th style="text-align:right;">
+MAE
+</th>
+<th style="text-align:right;">
+MAPE
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Red Elman
+</td>
+<td style="text-align:right;">
+6.243833
+</td>
+<td style="text-align:right;">
+3.229842
+</td>
+<td style="text-align:right;">
+Inf
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Red Jordan
+</td>
+<td style="text-align:right;">
+6.218353
+</td>
+<td style="text-align:right;">
+3.230064
+</td>
+<td style="text-align:right;">
+Inf
+</td>
+</tr>
+</tbody>
+</table>
+<p>La tabla de métricas muestra los valores de RMSE, MAE y MAPE para los modelos Elman y Jordan. Ambos modelos presentan valores similares de RMSE y MAE, lo que indica que tienen un desempeño comparable en términos de la magnitud de los errores de predicción. Sin embargo, el valor de MAPE es infinito para ambos modelos, lo que sugiere que estos presentan dificultades para predecir con precisión los valores reales de precipitación, especialmente en los casos de valores bajos o cercanos a cero. Esta información complementa el análisis visual de las predicciones y nos permite evaluar de manera más completa el desempeño de los dos modelos de redes neuronales.</p>
+</div>
+</div>
+<div id="análisis-de-resultados-5" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Análisis de Resultados<a href="redes-neuronales.html#análisis-de-resultados-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Los modelos de redes neuronales Elman y Jordan aplicados al pronóstico de precipitación han mostrado un desempeño aceptable, con métricas de error relativamente bajas. Sin embargo, es importante analizar en detalle los resultados obtenidos para identificar oportunidades de mejora.</p>
+<p>En primer lugar, la transformación logarítmica aplicada a los datos de precipitación ha sido un paso crucial en el preprocesamiento. Esta técnica ha ayudado a estabilizar la varianza y aproximar la distribución de los datos a una forma más simétrica, lo cual es deseable para el entrenamiento de redes neuronales. No obstante, el hecho de que el MAPE (Error Porcentual Absoluto Medio) arroje un valor “Inf” (infinito) sugiere que aún existen problemas con valores de precipitación muy cercanos a cero.
+En cuanto a la arquitectura de las redes neuronales, los modelos Elman y Jordan han logrado capturar las dependencias temporales de la serie de precipitación. Sin embargo, hay margen para explorar configuraciones más complejas, como la incorporación de más capas ocultas o el uso de arquitecturas más avanzadas como LSTM y GRU, las cuales podrían mejorar aún más la capacidad de modelado.</p>
+<p>Adicionalmente, la selección de variables de entrada es un aspecto clave a considerar. Si bien los 10 rezagos temporales utilizados han sido un buen punto de partida, sería interesante evaluar la inclusión de otras variables predictoras, como datos meteorológicos (temperatura, humedad, presión atmosférica, etc.), que podrían aportar información relevante y mejorar el desempeño de los modelos.</p>
+<p>En cuanto a la validación y evaluación de los modelos, si bien se ha realizado una división de los datos en conjuntos de entrenamiento y prueba, la implementación de técnicas de validación cruzada podría proporcionar una estimación más robusta del desempeño de los modelos. Además, un análisis detallado de los residuos y su distribución podría revelar patrones o problemas que deban abordarse.</p>
+<p>En resumen, los modelos de redes neuronales Elman y Jordan han demostrado un desempeño aceptable en el pronóstico de precipitación, pero existen oportunidades de mejora relacionadas con el tratamiento de valores extremos, la selección de arquitecturas más avanzadas, la inclusión de variables predictoras adicionales y la aplicación de técnicas de validación más robustas. Continuar explorando estos aspectos y comparar los resultados con otros métodos de modelado permitirá refinar aún más la capacidad predictiva de estos enfoques.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="modelo-prophet.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "night",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

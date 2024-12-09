@@ -1,6 +1,7 @@
 tab:unnamed-chunk-19
 tab:unnamed-chunk-23
 tab:unnamed-chunk-26
+tab:unnamed-chunk-49
 importancia-del-análisis-de-la-precipitación
 analisisexploratorio
 datos-faltantes
@@ -50,3 +51,14 @@ evaluación-del-desempeño-y-diagnóstico
 comparación-con-modelo-arima
 justificación-del-enfoque-de-regresión
 análisis-de-resultados-4
+redes-neuronales
+metodología-3
+preparación-de-datos-para-redes-neuronales
+transformación-logarítmica-de-datos-de-precipitación
+creación-de-variables-de-retardo
+normalización-de-datos
+entrenamiento-de-modelos-de-redes-neuronales
+red-neuronal-elman
+red-neuronal-jordan
+evaluación-de-modelos
+análisis-de-resultados-5
